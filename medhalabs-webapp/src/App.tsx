@@ -130,7 +130,8 @@ const About: React.FC = () => (
       </p>
     </div>
 
-    <div className="grid-3">
+    {/* Core pillars */}
+    <div className="grid-3" style={{ marginBottom: "2.5rem" }}>
       <div className="card">
         <div className="card-icon">🎯</div>
         <h3 className="card-title">Product‑oriented thinking</h3>
@@ -158,8 +159,143 @@ const About: React.FC = () => (
         </p>
       </div>
     </div>
+
+    {/* Founder section */}
+    <div className="container" style={{ maxWidth: "900px" }}>
+      <div
+        className="card"
+        style={{
+          display: "grid",
+          gap: "1.2rem",
+          gridTemplateColumns: "minmax(0, 1.4fr) minmax(0, 2fr)",
+          alignItems: "center",
+        }}
+      >
+        <div>
+          <div
+            style={{
+              fontSize: "0.8rem",
+              fontWeight: 600,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "var(--color-text-light)",
+              marginBottom: "0.3rem",
+            }}
+          >
+            FOUNDER
+          </div>
+          <h3
+            style={{
+              fontSize: "1.15rem",
+              marginBottom: "0.25rem",
+              color: "var(--color-primary)",
+            }}
+          >
+              Pavan Raj K G
+          </h3>
+          <p
+            style={{
+              fontSize: "0.9rem",
+              color: "var(--color-text-light)",
+              marginBottom: "0.6rem",
+            }}
+          >
+            Founder & Software Engineer, Medhā Labs
+          </p>
+          <p style={{ fontSize: "0.9rem", color: "var(--color-text-light)" }}>
+            With a background in building real‑world products for businesses,
+            {` `}
+            <strong>Pavan Raj K G</strong> started Medhā Labs to help companies turn
+            ideas into reliable software. The focus is on clean architecture,
+            clear communication, and shipping value in small, continuous steps.
+          </p>
+        </div>
+
+        <div
+          style={{
+            fontSize: "0.85rem",
+            color: "var(--color-text-light)",
+            display: "grid",
+            gap: "0.45rem",
+          }}
+        >
+          <div>
+            <strong>What the founder believes in</strong>
+            <ul style={{ marginTop: "0.25rem", paddingLeft: "1rem" }}>
+              <li>Simple, maintainable code over clever hacks.</li>
+              <li>Understanding the business before writing features.</li>
+              <li>Building long‑term relationships, not one‑off projects.</li>
+            </ul>
+          </div>
+          <div>
+            <strong>Connect</strong>
+            <div style={{ marginTop: "0.15rem" }}>
+              <a
+                href="mailto:hello@medhalabs.com"
+                style={{ marginRight: "0.75rem" }}
+              >
+                Email
+              </a>
+              <span>•</span>
+              <a
+                href="https://www.linkedin.com/in/pavanrajkg/"
+                target="_blank"
+                rel="noreferrer"
+                style={{ marginLeft: "0.75rem" }}
+              >
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 );
+
+
+// const About: React.FC = () => (
+//   <section className="section" id="about">
+//     <div className="section-header">
+//       <div className="section-kicker">ABOUT MEDHĀ LABS</div>
+//       <h2 className="section-title">Software studio with a lab mindset.</h2>
+//       <p className="section-subtitle">
+//         Medhā Labs combines disciplined engineering with an experimental
+//         approach. We validate ideas quickly, ship dependable software, and stay
+//         engaged as your product evolves.
+//       </p>
+//     </div>
+
+//     <div className="grid-3">
+//       <div className="card">
+//         <div className="card-icon">🎯</div>
+//         <h3 className="card-title">Product‑oriented thinking</h3>
+//         <p className="card-body">
+//           We focus on outcomes, not just tickets. Every feature is tied to a
+//           clear user or business goal so you build what truly matters.
+//         </p>
+//       </div>
+
+//       <div className="card">
+//         <div className="card-icon">🧩</div>
+//         <h3 className="card-title">Full‑stack capability</h3>
+//         <p className="card-body">
+//           Frontend, backend, APIs, databases and integrations — one team that
+//           can design and deliver the complete solution.
+//         </p>
+//       </div>
+
+//       <div className="card">
+//         <div className="card-icon">🤝</div>
+//         <h3 className="card-title">Long‑term partnership</h3>
+//         <p className="card-body">
+//           We stay after launch: monitoring, improving, and extending your
+//           systems as your business grows.
+//         </p>
+//       </div>
+//     </div>
+//   </section>
+// );
 
 const Services: React.FC = () => (
   <section className="section" id="services">
@@ -344,7 +480,7 @@ const Footer: React.FC = () => (
       </div>
       <div>
         <div className="footer-column-title">Connect</div>
-        <a className="footer-link" href="mailto:medhalabs04@gmail.com.com">
+        <a className="footer-link" href="mailto:medhalabs04@gmail.com">
           hello@medhalabs.com
         </a>
         <div className="footer-link">LinkedIn · GitHub</div>
