@@ -483,7 +483,7 @@ const Contact: React.FC = () => (
           }}
         >
           Prefer email? Write to{" "}
-          <a href="mailto:hello@medhalabs.com">hello@medhalabs.com</a>.
+          <a href="mailto:medhalabs04@gmail.com">medhalabs04@gmail.com</a>.
         </p>
       </form>
     </div>
@@ -581,8 +581,8 @@ const Footer: React.FC = () => (
       </div>
       <div>
         <div className="footer-column-title">Connect</div>
-        | <a className="footer-link" href="mailto:hello@medhalabs.com">
-          hello@medhalabs.com
+        | <a className="footer-link" href="mailto:medhalabs04@gmail.com">
+          medhalabs04@gmail.com
         </a> |  
         | <a className="footer-link" href="https://www.linkedin.com/in/pavanrajkg/" target="_blank" rel="noreferrer">
            LinkedIn
