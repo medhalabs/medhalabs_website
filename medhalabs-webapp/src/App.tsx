@@ -208,7 +208,7 @@ const About: React.FC = () => (
           <p style={{ fontSize: "0.9rem", color: "var(--color-text-light)" }}>
             With a background in building real‑world products and growing digital
             presence for businesses,{` `}
-            <strong>Pavan Raj K G</strong> started Medhā Labs to help companies turn
+            <strong>Pavan Raj K G</strong> started Medhā Labs in the year 2022 to help companies turn
             ideas into reliable software that sells. The focus is on clean
             architecture, clear communication, smart marketing, and shipping value
             in small, continuous steps.
