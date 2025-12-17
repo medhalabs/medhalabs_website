@@ -517,6 +517,7 @@ const Projects: React.FC = () => {
       tech: ["Open Source", "GST Billing", "Inventory Management", "CRM"],
       category: "Software Development",
       link: "#",
+      presentation: "/billinator_presentation.html",
       featured: true,
     },
     {
@@ -526,6 +527,7 @@ const Projects: React.FC = () => {
       tech: ["Open Source", "HRMS", "Employee Management", "Payroll"],
       category: "Software Development",
       link: "#",
+      presentation: null,
       featured: true,
     },
     {
@@ -535,6 +537,7 @@ const Projects: React.FC = () => {
       tech: ["Branding", "Marketing Strategy", "Digital Marketing", "Brand Identity"],
       category: "Marketing & Branding",
       link: "#",
+      presentation: null,
       featured: false,
     },
     {
@@ -544,6 +547,7 @@ const Projects: React.FC = () => {
       tech: ["Crypto Trading", "Copy Trading", "Real-time", "Portfolio Management"],
       category: "Software Development",
       link: "#",
+      presentation: "/ProMirror_Presentation.html",
       featured: false,
     },
     {
@@ -553,6 +557,7 @@ const Projects: React.FC = () => {
       tech: ["Web Development", "SEO", "Website Maintenance", "Content Management"],
       category: "Web Development",
       link: "#",
+      presentation: null,
       featured: false,
     },
     {
@@ -562,6 +567,7 @@ const Projects: React.FC = () => {
       tech: ["Digital Marketing", "SEO", "Campaign Management", "Lead Generation"],
       category: "Marketing & Branding",
       link: "#",
+      presentation: null,
       featured: false,
     },
     {
@@ -571,6 +577,7 @@ const Projects: React.FC = () => {
       tech: ["Web Development", "Responsive Design", "Content Management", "Cultural Heritage"],
       category: "Web Development",
       link: "#",
+      presentation: null,
       featured: false,
     },
   ];
@@ -628,6 +635,7 @@ type Project = {
   tech: string[];
   category: string;
   link: string;
+  presentation: string | null;
   featured: boolean;
 };
 
@@ -650,6 +658,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <span key={idx} className="tech-tag">{tech}</span>
           ))}
         </div>
+        {project.presentation && (
+          <a
+            href={project.presentation}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-presentation-btn"
+          >
+            <span className="presentation-icon">📊</span>
+            <span>View Presentation</span>
+            <span className="presentation-arrow">→</span>
+          </a>
+        )}
       </div>
     </article>
   );
