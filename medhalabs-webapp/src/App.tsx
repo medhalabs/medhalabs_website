@@ -6,10 +6,52 @@ import client2 from "./assets/Nesara_Organicslogo.png";
 import client3 from "./assets/pūrṇāyai_organicslogo.png";
 import client4 from "./assets/Adimalogo.png";
 import client5 from "./assets/medhalabs_logo.png";
+import founderImage from "./assets/founder_image.jpeg";
 
 const App: React.FC = () => {
+  const [scrollProgress, setScrollProgress] = React.useState(0);
+
+  useEffect(() => {
+    // Initialize scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-in");
+        }
+      });
+    }, observerOptions);
+
+    // Observe all sections
+    const sections = document.querySelectorAll(".section, .hero, .card, .project-card");
+    sections.forEach((section) => observer.observe(section));
+
+    // Scroll progress indicator
+    const handleScroll = () => {
+      const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / windowHeight) * 100;
+      setScrollProgress(scrolled);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      sections.forEach((section) => observer.unobserve(section));
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="app-shell">
+      <div className="animated-background"></div>
+      <div 
+        className="scroll-progress" 
+        style={{ transform: `scaleX(${scrollProgress / 100})` }}
+      ></div>
       <Navbar />
       <Hero />
       <About />
@@ -39,8 +81,8 @@ const Navbar: React.FC = () => {
     <header className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="container navbar-inner">
         <div className="nav-left">
-          <span>
-            <img src={logo} alt="Logo" style={{ width: "120px" }} loading="eager" width="120" height="40" />
+          <span className="nav-logo-wrapper">
+            <img src={logo} alt="Medhā Labs Logo" className="nav-logo-img" loading="eager" />
           </span>
           <div>
             <div className="nav-logo">Medhā Labs</div>
@@ -60,51 +102,70 @@ const Navbar: React.FC = () => {
   );
 };
 
-const Hero: React.FC = () => (
-  <section className="hero" id="home">
-    <div className="hero-inner">
-      <div>
-        <div className="hero-badge">
-          <span>⚙️ Medhā Labs</span>
-          <span>Software, Marketing & Brand Strategy</span>
-        </div>
-        <h1 className="hero-title">Where wisdom powers modern software.</h1>
-        <p className="hero-subtitle">
-          Medhā Labs is a software development & digital marketing studio that
-          designs, builds, and promotes robust web applications. From idea to
-          production to market presence, we turn complex problems into reliable
-          digital products with strong brand visibility.
-        </p>
-        <div className="hero-cta">
-          <button
-            className="btn btn-primary"
-            onClick={() =>
-              document
-                .getElementById("contact")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            Start a project →
-          </button>
-          <button
-            className="btn btn-outline"
-            onClick={() =>
-              document
-                .getElementById("services")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            View services
-          </button>
-        </div>
-        <div className="hero-pill">
-          <span>Web & API development</span>
-          <span>React · TypeScript · Python</span>
-          <span>Digital Marketing & Branding</span>
-        </div>
-      </div>
+const Hero: React.FC = () => {
+  const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
 
-      <aside className="hero-card">
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100,
+      });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  return (
+    <section className="hero" id="home">
+      <div className="hero-gradient" style={{
+        background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(255, 184, 28, 0.1), transparent 50%)`
+      }}></div>
+      <div className="hero-inner">
+        <div className="hero-content">
+          <div className="hero-badge animate-slide-down">
+            <span>⚙️ Medhā Labs</span>
+            <span>Software, Marketing & Brand Strategy</span>
+          </div>
+          <h1 className="hero-title animate-fade-in-up">Where wisdom powers modern software.</h1>
+          <p className="hero-subtitle animate-fade-in-up-delay">
+            Medhā Labs is a software development & digital marketing studio that
+            designs, builds, and promotes robust web applications. From idea to
+            production to market presence, we turn complex problems into reliable
+            digital products with strong brand visibility.
+          </p>
+          <div className="hero-cta animate-fade-in-up-delay-2">
+            <button
+              className="btn btn-primary btn-animated"
+              onClick={() =>
+                document
+                  .getElementById("contact")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              <span>Start a project</span>
+              <span className="btn-arrow">→</span>
+            </button>
+            <button
+              className="btn btn-outline btn-animated"
+              onClick={() =>
+                document
+                  .getElementById("services")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              View services
+            </button>
+          </div>
+          <div className="hero-pill animate-fade-in-up-delay-3">
+            <span className="pill-item">Web & API development</span>
+            <span className="pill-item">React · TypeScript · Python</span>
+            <span className="pill-item">Digital Marketing & Branding</span>
+          </div>
+        </div>
+
+        <aside className="hero-card animate-scale-in">
         <div className="hero-card-header">
           <div>
             <div className="hero-chip">Full-stack services</div>
@@ -139,7 +200,8 @@ const Hero: React.FC = () => (
       </aside>
     </div>
   </section>
-);
+  );
+};
 
 const About: React.FC = () => (
   <section className="section" id="about">
@@ -183,93 +245,113 @@ const About: React.FC = () => (
       </div>
     </div>
 
-    {/* Founder section */}
-    <div className="container" style={{ maxWidth: "900px" }}>
-      <div
-        className="card"
-        style={{
-          display: "grid",
-          gap: "1.2rem",
-          gridTemplateColumns: "minmax(0, 1.4fr) minmax(0, 2fr)",
-          alignItems: "center",
-        }}
-      >
-        <div>
-          <div
-            style={{
-              fontSize: "0.8rem",
-              fontWeight: 600,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "var(--color-text-light)",
-              marginBottom: "0.3rem",
-            }}
-          >
-            FOUNDER
+    {/* Founder section - Futuristic Design */}
+    <div className="container" style={{ maxWidth: "1000px" }}>
+      <div className="founder-section">
+        <div className="founder-header">
+          <div className="founder-badge">
+            <span className="founder-icon">👨‍💻</span>
+            <span>FOUNDER & LEAD DEVELOPER</span>
           </div>
-          <h3
-            style={{
-              fontSize: "1.15rem",
-              marginBottom: "0.25rem",
-              color: "var(--color-primary)",
-            }}
-          >
-            Pavan Raj K G
-          </h3>
-          <p
-            style={{
-              fontSize: "0.9rem",
-              color: "var(--color-text-light)",
-              marginBottom: "0.6rem",
-            }}
-          >
-            Founder & Full‑Stack Developer, Medhā Labs
-          </p>
-          <p style={{ fontSize: "0.9rem", color: "var(--color-text-light)" }}>
-            With a background in building real‑world products and growing digital
-            presence for businesses,{` `}
-            <strong>Pavan Raj K G</strong> started Medhā Labs in the year 2022 to help companies turn
-            ideas into reliable software that sells. The focus is on clean
-            architecture, clear communication, smart marketing, and shipping value
-            in small, continuous steps.
-          </p>
+          <div className="founder-name-section">
+            <div className="founder-image-wrapper">
+              <img 
+                src={founderImage} 
+                alt="Pavan Raj K G - Founder" 
+                className="founder-image"
+              />
+              <div className="founder-image-glow"></div>
+            </div>
+            <div className="founder-name-content">
+              <h3 className="founder-name">
+                Pavan Raj K G
+              </h3>
+              <p className="founder-role">
+                Founder & Full‑Stack Developer, Medhā Labs
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div
-          style={{
-            fontSize: "0.85rem",
-            color: "var(--color-text-light)",
-            display: "grid",
-            gap: "0.45rem",
-          }}
-        >
-          <div>
-            <strong>What the founder believes in</strong>
-            <ul style={{ marginTop: "0.25rem", paddingLeft: "1rem" }}>
-              <li>Simple, maintainable code over clever hacks.</li>
-              <li>Understanding business goals before writing features.</li>
-              <li>Smart branding that communicates product value clearly.</li>
-              <li>Building long‑term relationships, not one‑off projects.</li>
-            </ul>
+        <div className="founder-content-grid">
+          <div className="founder-main">
+            <div className="founder-description">
+              <p>
+                With a background in building real‑world products and growing digital
+                presence for businesses, <strong>Pavan Raj K G</strong> started Medhā Labs in 2022 
+                to help companies turn ideas into reliable software that sells. The focus is on clean
+                architecture, clear communication, smart marketing, and shipping value
+                in small, continuous steps.
+              </p>
+            </div>
+
+            <div className="founder-stats">
+              <div className="founder-stat-item">
+                <div className="stat-number">2022</div>
+                <div className="stat-label">Founded</div>
+              </div>
+              <div className="founder-stat-item">
+                <div className="stat-number">7+</div>
+                <div className="stat-label">Projects</div>
+              </div>
+              <div className="founder-stat-item">
+                <div className="stat-number">100%</div>
+                <div className="stat-label">Dedication</div>
+              </div>
+            </div>
           </div>
-          <div>
-            <strong>Connect</strong>
-            <div style={{ marginTop: "0.15rem" }}>
-              <a
-                href="mailto:hello@medhalabs.com"
-                style={{ marginRight: "0.75rem" }}
-              >
-                Email
-              </a>
-              <span>•</span>
-              <a
-                href="https://www.linkedin.com/in/pavanrajkg/"
-                target="_blank"
-                rel="noreferrer"
-                style={{ marginLeft: "0.75rem" }}
-              >
-                LinkedIn
-              </a>
+
+          <div className="founder-sidebar">
+            <div className="founder-beliefs">
+              <div className="beliefs-header">
+                <span className="beliefs-icon">💡</span>
+                <h4>Core Principles</h4>
+              </div>
+              <ul className="beliefs-list">
+                <li>
+                  <span className="belief-marker">▸</span>
+                  <span>Simple, maintainable code over clever hacks</span>
+                </li>
+                <li>
+                  <span className="belief-marker">▸</span>
+                  <span>Understanding business goals before writing features</span>
+                </li>
+                <li>
+                  <span className="belief-marker">▸</span>
+                  <span>Smart branding that communicates product value clearly</span>
+                </li>
+                <li>
+                  <span className="belief-marker">▸</span>
+                  <span>Building long‑term relationships, not one‑off projects</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="founder-connect">
+              <div className="connect-header">
+                <span className="connect-icon">🔗</span>
+                <h4>Connect</h4>
+              </div>
+              <div className="connect-links">
+                <a
+                  href="mailto:hello@medhalabs.com"
+                  className="connect-link"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="link-icon">✉️</span>
+                  <span>Email</span>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/pavanrajkg/"
+                  className="connect-link"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="link-icon">💼</span>
+                  <span>LinkedIn</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -290,36 +372,22 @@ const Services: React.FC = () => (
     </div>
 
     <div className="grid-3">
-      <ServiceCard
-        icon="💻"
-        title="Web applications"
-        body="Responsive, maintainable web apps built with React and TypeScript, backed by robust APIs."
-      />
-      <ServiceCard
-        icon="🔌"
-        title="APIs & integrations"
-        body="REST/GraphQL APIs, third‑party integrations, and internal tools that connect your systems."
-      />
-      <ServiceCard
-        icon="☁️"
-        title="Cloud‑ready backends"
-        body="Scalable backends on AWS, Azure or other cloud providers, with CI/CD and monitoring in place."
-      />
-      <ServiceCard
-        icon="🧪"
-        title="Prototypes & MVPs"
-        body="Launch quickly with well‑structured MVPs you can iterate on, not throw away."
-      />
-      <ServiceCard
-        icon="🛠️"
-        title="Modernisation"
-        body="Refactor legacy apps, improve performance, and bring older systems to modern stacks."
-      />
-      <ServiceCard
-        icon="📈"
-        title="Ongoing development"
-        body="Dedicated capacity for continuous improvements, new features and maintenance."
-      />
+      {[
+        { icon: "💻", title: "Web applications", body: "Responsive, maintainable web apps built with React and TypeScript, backed by robust APIs." },
+        { icon: "🔌", title: "APIs & integrations", body: "REST/GraphQL APIs, third‑party integrations, and internal tools that connect your systems." },
+        { icon: "☁️", title: "Cloud‑ready backends", body: "Scalable backends on AWS, Azure or other cloud providers, with CI/CD and monitoring in place." },
+        { icon: "🧪", title: "Prototypes & MVPs", body: "Launch quickly with well‑structured MVPs you can iterate on, not throw away." },
+        { icon: "🛠️", title: "Modernisation", body: "Refactor legacy apps, improve performance, and bring older systems to modern stacks." },
+        { icon: "📈", title: "Ongoing development", body: "Dedicated capacity for continuous improvements, new features and maintenance." },
+      ].map((service, index) => (
+        <div key={index} style={{ animationDelay: `${index * 0.1}s` }}>
+          <ServiceCard
+            icon={service.icon}
+            title={service.title}
+            body={service.body}
+          />
+        </div>
+      ))}
     </div>
   </section>
 );
@@ -397,13 +465,22 @@ type ServiceCardProps = {
   body: string;
 };
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ icon, title, body }) => (
-  <article className="card">
-    <div className="card-icon">{icon}</div>
-    <h3 className="card-title">{title}</h3>
-    <p className="card-body">{body}</p>
-  </article>
-);
+const ServiceCard: React.FC<ServiceCardProps> = ({ icon, title, body }) => {
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  return (
+    <article 
+      className="card card-animated"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className={`card-icon ${isHovered ? "icon-bounce" : ""}`}>{icon}</div>
+      <h3 className="card-title">{title}</h3>
+      <p className="card-body">{body}</p>
+      <div className={`card-hover-effect ${isHovered ? "active" : ""}`}></div>
+    </article>
+  );
+};
 
 
 const Projects: React.FC = () => {
