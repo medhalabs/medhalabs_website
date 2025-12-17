@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./index.css";
 import logo from "./assets/medhalabs_logo.png";
+import client1 from "./assets/tsilogo.png";
+import client2 from "./assets/Nesara_Organicslogo.png";
+import client3 from "./assets/pūrṇāyai_organicslogo.png";
+import client4 from "./assets/Adimalogo.png";
+import client5 from "./assets/medhalabs_logo.png";
 
 const App: React.FC = () => {
   return (
@@ -9,6 +14,7 @@ const App: React.FC = () => {
       <Hero />
       <About />
       <Services />
+      <Projects />
       <Marketing />
       <Clients />
       <Contact />
@@ -17,28 +23,42 @@ const App: React.FC = () => {
   );
 };
 
-const Navbar: React.FC = () => (
-  <header className="navbar">
-    <div className="container navbar-inner">
-      <div className="nav-left">
-        <span>
-          <img src={logo} alt="Logo" style={{ width: "120px" }} />
-        </span>
-        <div>
-          <div className="nav-logo">Medhā Labs</div>
-          <div className="nav-tagline">Intelligence.Innovation.Impact</div>
-        </div>
-      </div>
+const Navbar: React.FC = () => {
+  const [scrolled, setScrolled] = React.useState(false);
 
-      <nav className="nav-links">
-        <a href="#about" className="nav-link">About</a>
-        <a href="#services" className="nav-link">Services</a>
-        <a href="#marketing" className="nav-link">Marketing</a>
-        <a href="#contact" className="nav-link">Contact</a>
-      </nav>
-    </div>
-  </header>
-);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <header className={`navbar ${scrolled ? "scrolled" : ""}`}>
+      <div className="container navbar-inner">
+        <div className="nav-left">
+          <span>
+            <img src={logo} alt="Logo" style={{ width: "120px" }} loading="eager" width="120" height="40" />
+          </span>
+          <div>
+            <div className="nav-logo">Medhā Labs</div>
+            <div className="nav-tagline">Intelligence.Innovation.Impact</div>
+          </div>
+        </div>
+
+        <nav className="nav-links">
+          <a href="#about" className="nav-link">About</a>
+          <a href="#services" className="nav-link">Services</a>
+          <a href="#projects" className="nav-link">Projects</a>
+          <a href="#marketing" className="nav-link">Marketing</a>
+          <a href="#contact" className="nav-link">Contact</a>
+        </nav>
+      </div>
+    </header>
+  );
+};
 
 const Hero: React.FC = () => (
   <section className="hero" id="home">
@@ -385,11 +405,178 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ icon, title, body }) => (
   </article>
 );
 
-import client1 from "./assets/tsilogo.png";
-import client2 from "./assets/Nesara_Organicslogo.png";
-import client3 from "./assets/pūrṇāyai_organicslogo.png";
-import client4 from "./assets/Adimalogo.png";
-import client5 from "./assets/medhalabs_logo.png";
+
+const Projects: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  const projects = [
+    {
+      id: 1,
+      title: "Billinator",
+      description: "Open source GST billing and stock management application with comprehensive inventory management and CRM capabilities. Streamlines business operations with automated invoicing, tax compliance, and customer relationship tracking.",
+      tech: ["Open Source", "GST Billing", "Inventory Management", "CRM"],
+      category: "Software Development",
+      link: "#",
+      featured: true,
+    },
+    {
+      id: 2,
+      title: "OStaffSync",
+      description: "Open source Human Resource Management System (HRMS) designed to help organizations manage employee data, attendance, payroll, and HR processes efficiently. Built with modern architecture for scalability and ease of use.",
+      tech: ["Open Source", "HRMS", "Employee Management", "Payroll"],
+      category: "Software Development",
+      link: "#",
+      featured: true,
+    },
+    {
+      id: 3,
+      title: "Nesara Organics & Purnayi Organics",
+      description: "Comprehensive branding and marketing support for organic products companies. Delivered complete brand identity, marketing strategy, and digital presence to help these brands connect with their target audience and grow their market share.",
+      tech: ["Branding", "Marketing Strategy", "Digital Marketing", "Brand Identity"],
+      category: "Marketing & Branding",
+      link: "#",
+      featured: false,
+    },
+    {
+      id: 4,
+      title: "ProMirror",
+      description: "A sophisticated crypto copy trading platform that enables users to automatically replicate trades from successful traders. Features real-time trade mirroring, risk management tools, and comprehensive portfolio analytics for cryptocurrency trading.",
+      tech: ["Crypto Trading", "Copy Trading", "Real-time", "Portfolio Management"],
+      category: "Software Development",
+      link: "#",
+      featured: false,
+    },
+    {
+      id: 5,
+      title: "Nesara Organics Website",
+      description: "Complete website development and ongoing maintenance for Nesara Organics. Built a responsive, SEO-optimized website that showcases their organic products and brand story, with continuous updates and performance monitoring.",
+      tech: ["Web Development", "SEO", "Website Maintenance", "Content Management"],
+      category: "Web Development",
+      link: "#",
+      featured: false,
+    },
+    {
+      id: 6,
+      title: "Technosys India",
+      description: "Digital marketing services for Technosys India, including strategy development, campaign management, and performance optimization. Helped increase online visibility and drive qualified leads through targeted digital marketing initiatives.",
+      tech: ["Digital Marketing", "SEO", "Campaign Management", "Lead Generation"],
+      category: "Marketing & Branding",
+      link: "#",
+      featured: false,
+    },
+    {
+      id: 7,
+      title: "Adima Cultural Center",
+      description: "Complete website development for Adima Cultural Center, showcasing their cultural programs, events, and heritage initiatives. Built a modern, responsive website that reflects the center's mission and provides an engaging user experience for visitors and participants.",
+      tech: ["Web Development", "Responsive Design", "Content Management", "Cultural Heritage"],
+      category: "Web Development",
+      link: "#",
+      featured: false,
+    },
+  ];
+
+  const [filter, setFilter] = React.useState<string>("all");
+  const categories = ["all", ...Array.from(new Set(projects.map(p => p.category)))];
+
+  const filteredProjects = filter === "all" 
+    ? projects 
+    : projects.filter(p => p.category === filter);
+
+  return (
+    <section 
+      ref={sectionRef as React.RefObject<HTMLElement>}
+      className="section fade-in" 
+      id="projects" 
+      style={{ backgroundColor: "rgba(31, 71, 136, 0.02)" }}
+    >
+      <div className="section-header">
+        <div className="section-kicker">OUR PROJECTS</div>
+        <h2 className="section-title">Work that speaks for itself.</h2>
+        <p className="section-subtitle">
+          From web applications to brand identities, explore the projects we've built
+          for clients across different industries and use cases.
+        </p>
+      </div>
+
+      {/* Filter buttons */}
+      <div className="projects-filter">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            className={`filter-btn ${filter === cat ? "active" : ""}`}
+            onClick={() => setFilter(cat)}
+          >
+            {cat.charAt(0).toUpperCase() + cat.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      {/* Projects grid */}
+      <div className="projects-grid">
+        {filteredProjects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+type Project = {
+  id: number;
+  title: string;
+  description: string;
+  tech: string[];
+  category: string;
+  link: string;
+  featured: boolean;
+};
+
+type ProjectCardProps = {
+  project: Project;
+};
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+  return (
+    <article 
+      className={`project-card ${project.featured ? "featured" : ""}`}
+    >
+      <div className="project-content">
+        {project.featured && <span className="project-badge">Featured</span>}
+        <div className="project-category">{project.category}</div>
+        <h3 className="project-title">{project.title}</h3>
+        <p className="project-description">{project.description}</p>
+        <div className="project-tech">
+          {project.tech.map((tech, idx) => (
+            <span key={idx} className="tech-tag">{tech}</span>
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+};
 
 const Clients: React.FC = () => {
   const logos = [client1, client2, client3, client4, client5];
@@ -409,7 +596,7 @@ const Clients: React.FC = () => {
         <div className="clients-strip">
           {[...logos, ...logos].map((logoSrc, idx) => (
             <div className="client-logo" key={idx}>
-              <img src={logoSrc} alt={`Client ${idx + 1}`} />
+              <img src={logoSrc} alt={`Client ${idx + 1}`} loading="lazy" />
             </div>
           ))}
         </div>
