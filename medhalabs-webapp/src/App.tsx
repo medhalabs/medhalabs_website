@@ -7,6 +7,8 @@ import client3 from "./assets/pūrṇāyai_organicslogo.png";
 import client4 from "./assets/Adimalogo.png";
 import client5 from "./assets/medhalabs_logo.png";
 import founderImage from "./assets/founder_image.jpeg";
+import billinatorDemoVideo from "./assets/billinator_demo.mp4";
+import billinatorMovVideo from "./assets/billinator_video.mov";
 
 const App: React.FC = () => {
   const [scrollProgress, setScrollProgress] = React.useState(0);
@@ -57,6 +59,7 @@ const App: React.FC = () => {
       <About />
       <Services />
       <Projects />
+      <Gallery />
       <Marketing />
       <Clients />
       <Contact />
@@ -94,6 +97,7 @@ const Navbar: React.FC = () => {
           <a href="#about" className="nav-link">About</a>
           <a href="#services" className="nav-link">Services</a>
           <a href="#projects" className="nav-link">Projects</a>
+          <a href="#gallery" className="nav-link">Gallery</a>
           <a href="#marketing" className="nav-link">Marketing</a>
           <a href="#contact" className="nav-link">Contact</a>
         </nav>
@@ -622,6 +626,67 @@ const Projects: React.FC = () => {
       <div className="projects-grid">
         {filteredProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+type GalleryVideo = {
+  id: string;
+  title: string;
+  description: string;
+  src: string;
+};
+
+const Gallery: React.FC = () => {
+  const videos: GalleryVideo[] = [
+    {
+      id: "billinator-demo",
+      title: "Billinator Demo",
+      description: "Quick walkthrough of Billinator: GST billing, stock, and CRM workflows.",
+      src: billinatorDemoVideo,
+    },
+    {
+      id: "billinator-walkthrough",
+      title: "Billinator Walkthrough",
+      description: "Feature tour and UI flows for the Billinator application.",
+      src: billinatorMovVideo,
+    },
+  ];
+
+  return (
+    <section className="section" id="gallery">
+      <div className="section-header">
+        <div className="section-kicker">GALLERY</div>
+        <h2 className="section-title">Product videos & demos.</h2>
+        <p className="section-subtitle">
+          Short, focused demos that show real product flow—built with Medhā Labs engineering and design.
+        </p>
+      </div>
+
+      <div className="gallery-grid">
+        {videos.map((v) => (
+          <article key={v.id} className="gallery-card">
+            <div className="gallery-card-header">
+              <div>
+                <h3 className="gallery-title">{v.title}</h3>
+                <p className="gallery-description">{v.description}</p>
+              </div>
+            </div>
+
+            <div className="gallery-video-frame">
+              <video
+                className="gallery-video"
+                controls
+                playsInline
+                preload="metadata"
+              >
+                <source src={v.src} />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </article>
         ))}
       </div>
     </section>
