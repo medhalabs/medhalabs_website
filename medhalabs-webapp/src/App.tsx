@@ -959,9 +959,6 @@ const Footer: React.FC = () => (
         </a> |  
         | <a className="footer-link" href="https://www.linkedin.com/in/pavanrajkg/" target="_blank" rel="noreferrer">
            LinkedIn
-        </a> | 
-        | <a className="footer-link" href="https://github.com/medhalabs" target="_blank" rel="noreferrer">
-           GitHub
         </a> |
       </div>
     </div>
