@@ -338,7 +338,7 @@ const About: React.FC = () => (
               </div>
               <div className="connect-links">
                 <a
-                  href="mailto:hello@medhalabs.com"
+                  href="mailto:medhalabs04@gmail.com"
                   className="connect-link"
                   target="_blank"
                   rel="noreferrer"
