@@ -516,6 +516,16 @@ const Projects: React.FC = () => {
   const projects = [
     {
       id: 1,
+      title: "Portik",
+      description: "A portfolio + trade journal SaaS for active traders built for execution review. Portik helps traders track executions, capture context, and measure what works with clean, server-side analytics. Features trade capture, journaling with strategy/emotion tagging, performance insights, and transparent unrealized P&L calculations. No signals, no advice—just analytics.",
+      tech: ["SaaS", "Trade Journal", "Portfolio Analytics", "FastAPI", "Postgres"],
+      category: "Software Development",
+      link: "https://www.portik.in/",
+      presentation: null,
+      featured: true,
+    },
+    {
+      id: 2,
       title: "Billinator",
       description: "Open source GST billing and stock management application with comprehensive inventory management and CRM capabilities. Streamlines business operations with automated invoicing, tax compliance, and customer relationship tracking.",
       tech: ["Open Source", "GST Billing", "Inventory Management", "CRM"],
@@ -525,7 +535,7 @@ const Projects: React.FC = () => {
       featured: true,
     },
     {
-      id: 2,
+      id: 3,
       title: "OStaffSync",
       description: "Open source Human Resource Management System (HRMS) designed to help organizations manage employee data, attendance, payroll, and HR processes efficiently. Built with modern architecture for scalability and ease of use.",
       tech: ["Open Source", "HRMS", "Employee Management", "Payroll"],
@@ -535,7 +545,7 @@ const Projects: React.FC = () => {
       featured: true,
     },
     {
-      id: 3,
+      id: 4,
       title: "Nesara Organics & Purnayi Organics",
       description: "Comprehensive branding and marketing support for organic products companies. Delivered complete brand identity, marketing strategy, and digital presence to help these brands connect with their target audience and grow their market share.",
       tech: ["Branding", "Marketing Strategy", "Digital Marketing", "Brand Identity"],
@@ -545,7 +555,7 @@ const Projects: React.FC = () => {
       featured: false,
     },
     {
-      id: 4,
+      id: 5,
       title: "ProMirror",
       description: "A sophisticated crypto copy trading platform that enables users to automatically replicate trades from successful traders. Features real-time trade mirroring, risk management tools, and comprehensive portfolio analytics for cryptocurrency trading.",
       tech: ["Crypto Trading", "Copy Trading", "Real-time", "Portfolio Management"],
@@ -555,7 +565,7 @@ const Projects: React.FC = () => {
       featured: false,
     },
     {
-      id: 5,
+      id: 6,
       title: "Nesara Organics Website",
       description: "Complete website development and ongoing maintenance for Nesara Organics. Built a responsive, SEO-optimized website that showcases their organic products and brand story, with continuous updates and performance monitoring.",
       tech: ["Web Development", "SEO", "Website Maintenance", "Content Management"],
@@ -565,7 +575,7 @@ const Projects: React.FC = () => {
       featured: false,
     },
     {
-      id: 6,
+      id: 7,
       title: "Technosys India",
       description: "Digital marketing services for Technosys India, including strategy development, campaign management, and performance optimization. Helped increase online visibility and drive qualified leads through targeted digital marketing initiatives.",
       tech: ["Digital Marketing", "SEO", "Campaign Management", "Lead Generation"],
@@ -575,7 +585,7 @@ const Projects: React.FC = () => {
       featured: false,
     },
     {
-      id: 7,
+      id: 8,
       title: "Adima Cultural Center",
       description: "Complete website development for Adima Cultural Center, showcasing their cultural programs, events, and heritage initiatives. Built a modern, responsive website that reflects the center's mission and provides an engaging user experience for visitors and participants.",
       tech: ["Web Development", "Responsive Design", "Content Management", "Cultural Heritage"],
@@ -723,18 +733,32 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <span key={idx} className="tech-tag">{tech}</span>
           ))}
         </div>
-        {project.presentation && (
-          <a
-            href={project.presentation}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-presentation-btn"
-          >
-            <span className="presentation-icon">📊</span>
-            <span>View Presentation</span>
-            <span className="presentation-arrow">→</span>
-          </a>
-        )}
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "1rem" }}>
+          {project.presentation && (
+            <a
+              href={project.presentation}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-presentation-btn"
+            >
+              <span className="presentation-icon">📊</span>
+              <span>View Presentation</span>
+              <span className="presentation-arrow">→</span>
+            </a>
+          )}
+          {project.link && project.link !== "#" && (
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-presentation-btn"
+            >
+              <span className="presentation-icon">🌐</span>
+              <span>Visit Website</span>
+              <span className="presentation-arrow">→</span>
+            </a>
+          )}
+        </div>
       </div>
     </article>
   );
