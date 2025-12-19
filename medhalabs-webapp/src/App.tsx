@@ -537,10 +537,10 @@ const Projects: React.FC = () => {
     {
       id: 3,
       title: "OStaffSync",
-      description: "Open source Human Resource Management System (HRMS) designed to help organizations manage employee data, attendance, payroll, and HR processes efficiently. Built with modern architecture for scalability and ease of use.",
-      tech: ["Open Source", "HRMS", "Employee Management", "Payroll"],
+      description: "A completely free and open source HR management system that transforms HR operations. OStaffSync provides an all-in-one solution for employee management, payroll & attendance, performance tracking, and recruitment & onboarding. Designed for teams of any size, it streamlines workflows, empowers employees, and saves time with flexible, scalable architecture.",
+      tech: ["Open Source", "HRMS", "Employee Management", "Payroll", "Reflex"],
       category: "Software Development",
-      link: "#",
+      link: "https://ostaffsync.vercel.app/",
       presentation: null,
       featured: true,
     },
