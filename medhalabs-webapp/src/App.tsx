@@ -522,6 +522,7 @@ const Projects: React.FC = () => {
       category: "Software Development",
       link: "https://www.portik.in/",
       presentation: null,
+      demoId: "cmjdu104200mw3zz23lk6fsfr",
       featured: true,
     },
     {
@@ -711,6 +712,7 @@ type Project = {
   category: string;
   link: string;
   presentation: string | null;
+  demoId?: string;
   featured: boolean;
 };
 
@@ -734,6 +736,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           ))}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "1rem" }}>
+          {project.demoId && (
+            <button
+              onClick={() => {
+                if (typeof window !== 'undefined' && (window as any).Supademo) {
+                  (window as any).Supademo.open(project.demoId);
+                }
+              }}
+              className="project-presentation-btn"
+              style={{ cursor: "pointer", textAlign: "left" }}
+            >
+              <span className="presentation-icon">🎬</span>
+              <span>Try the tour</span>
+              <span className="presentation-arrow">→</span>
+            </button>
+          )}
           {project.presentation && (
             <a
               href={project.presentation}
