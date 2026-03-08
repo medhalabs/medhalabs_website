@@ -7,8 +7,6 @@ import client3 from "./assets/pūrṇāyai_organicslogo.png";
 import client4 from "./assets/Adimalogo.png";
 import client5 from "./assets/medhalabs_logo.png";
 import founderImage from "./assets/founder_image.jpeg";
-import billinatorDemoVideo from "./assets/billinator_demo.mp4";
-import billinatorMovVideo from "./assets/billinator_video.mov";
 
 const App: React.FC = () => {
   const [scrollProgress, setScrollProgress] = React.useState(0);
@@ -59,7 +57,6 @@ const App: React.FC = () => {
       <About />
       <Services />
       <Projects />
-      <Gallery />
       <Marketing />
       <Clients />
       <Contact />
@@ -97,7 +94,6 @@ const Navbar: React.FC = () => {
           <a href="#about" className="nav-link">About</a>
           <a href="#services" className="nav-link">Services</a>
           <a href="#projects" className="nav-link">Projects</a>
-          <a href="#gallery" className="nav-link">Gallery</a>
           <a href="#marketing" className="nav-link">Marketing</a>
           <a href="#contact" className="nav-link">Contact</a>
         </nav>
@@ -249,30 +245,22 @@ const About: React.FC = () => (
       </div>
     </div>
 
-    {/* Founder section - Futuristic Design */}
-    <div className="container" style={{ maxWidth: "1000px" }}>
+    {/* Founder section */}
+    <div className="container founder-container">
       <div className="founder-section">
         <div className="founder-header">
-          <div className="founder-badge">
-            <span className="founder-icon">👨‍💻</span>
-            <span>FOUNDER & LEAD DEVELOPER</span>
-          </div>
+          <span className="founder-badge">Founder & Lead</span>
           <div className="founder-name-section">
             <div className="founder-image-wrapper">
-              <img 
-                src={founderImage} 
-                alt="Pavan Raj K G - Founder" 
+              <img
+                src={founderImage}
+                alt="Pavan Raj K G - Founder"
                 className="founder-image"
               />
-              <div className="founder-image-glow"></div>
             </div>
             <div className="founder-name-content">
-              <h3 className="founder-name">
-                Pavan Raj K G
-              </h3>
-              <p className="founder-role">
-                Founder & Full‑Stack Developer, Medhā Labs
-              </p>
+              <h3 className="founder-name">Pavan Raj K G</h3>
+              <p className="founder-role">Founder & Full‑Stack Developer, Medhā Labs</p>
             </div>
           </div>
         </div>
@@ -282,7 +270,7 @@ const About: React.FC = () => (
             <div className="founder-description">
               <p>
                 With a background in building real‑world products and growing digital
-                presence for businesses, <strong>Pavan Raj K G</strong> started Medhā Labs in 2022 
+                presence for businesses, <strong>Pavan Raj K G</strong> started Medhā Labs in 2022
                 to help companies turn ideas into reliable software that sells. The focus is on clean
                 architecture, clear communication, smart marketing, and shipping value
                 in small, continuous steps.
@@ -291,51 +279,29 @@ const About: React.FC = () => (
 
             <div className="founder-stats">
               <div className="founder-stat-item">
-                <div className="stat-number">2022</div>
-                <div className="stat-label">Founded</div>
+                <span className="stat-number">2022</span>
+                <span className="stat-label">Founded</span>
               </div>
               <div className="founder-stat-item">
-                <div className="stat-number">7+</div>
-                <div className="stat-label">Projects</div>
-              </div>
-              <div className="founder-stat-item">
-                <div className="stat-number">100%</div>
-                <div className="stat-label">Dedication</div>
+                <span className="stat-number">7+</span>
+                <span className="stat-label">Projects</span>
               </div>
             </div>
           </div>
 
           <div className="founder-sidebar">
             <div className="founder-beliefs">
-              <div className="beliefs-header">
-                <span className="beliefs-icon">💡</span>
-                <h4>Core Principles</h4>
-              </div>
+              <h4 className="founder-sidebar-title">Core Principles</h4>
               <ul className="beliefs-list">
-                <li>
-                  <span className="belief-marker">▸</span>
-                  <span>Simple, maintainable code over clever hacks</span>
-                </li>
-                <li>
-                  <span className="belief-marker">▸</span>
-                  <span>Understanding business goals before writing features</span>
-                </li>
-                <li>
-                  <span className="belief-marker">▸</span>
-                  <span>Smart branding that communicates product value clearly</span>
-                </li>
-                <li>
-                  <span className="belief-marker">▸</span>
-                  <span>Building long‑term relationships, not one‑off projects</span>
-                </li>
+                <li>Simple, maintainable code over clever hacks</li>
+                <li>Understanding business goals before writing features</li>
+                <li>Smart branding that communicates product value clearly</li>
+                <li>Building long‑term relationships, not one‑off projects</li>
               </ul>
             </div>
 
             <div className="founder-connect">
-              <div className="connect-header">
-                <span className="connect-icon">🔗</span>
-                <h4>Connect</h4>
-              </div>
+              <h4 className="founder-sidebar-title">Connect</h4>
               <div className="connect-links">
                 <a
                   href="mailto:medhalabs04@gmail.com"
@@ -343,8 +309,7 @@ const About: React.FC = () => (
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <span className="link-icon">✉️</span>
-                  <span>Email</span>
+                  Email
                 </a>
                 <a
                   href="https://www.linkedin.com/in/pavanrajkg/"
@@ -352,8 +317,7 @@ const About: React.FC = () => (
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <span className="link-icon">💼</span>
-                  <span>LinkedIn</span>
+                  LinkedIn
                 </a>
               </div>
             </div>
@@ -522,7 +486,6 @@ const Projects: React.FC = () => {
       category: "Software Development",
       link: "https://www.portik.in/",
       presentation: null,
-      demoId: "cmjdu104200mw3zz23lk6fsfr",
       featured: true,
     },
     {
@@ -537,16 +500,6 @@ const Projects: React.FC = () => {
     },
     {
       id: 3,
-      title: "OStaffSync",
-      description: "A completely free and open source HR management system that transforms HR operations. OStaffSync provides an all-in-one solution for employee management, payroll & attendance, performance tracking, and recruitment & onboarding. Designed for teams of any size, it streamlines workflows, empowers employees, and saves time with flexible, scalable architecture.",
-      tech: ["Open Source", "HRMS", "Employee Management", "Payroll", "Reflex"],
-      category: "Software Development",
-      link: "https://ostaffsync.vercel.app/",
-      presentation: null,
-      featured: true,
-    },
-    {
-      id: 4,
       title: "Nesara Organics & Purnayi Organics",
       description: "Comprehensive branding and marketing support for organic products companies. Delivered complete brand identity, marketing strategy, and digital presence to help these brands connect with their target audience and grow their market share.",
       tech: ["Branding", "Marketing Strategy", "Digital Marketing", "Brand Identity"],
@@ -556,17 +509,17 @@ const Projects: React.FC = () => {
       featured: false,
     },
     {
-      id: 5,
-      title: "ProMirror",
-      description: "A sophisticated crypto copy trading platform that enables users to automatically replicate trades from successful traders. Features real-time trade mirroring, risk management tools, and comprehensive portfolio analytics for cryptocurrency trading.",
-      tech: ["Crypto Trading", "Copy Trading", "Real-time", "Portfolio Management"],
+      id: 4,
+      title: "Medha Inbrix",
+      description: "AI-powered shared inbox by Medhā Labs. Route, assign, and resolve customer conversations with AI assistance. One inbox for the whole team—keep everyone in sync without the chaos.",
+      tech: ["Shared Inbox", "Teams & Routing", "AI-ready", "Customer Conversations"],
       category: "Software Development",
       link: "#",
-      presentation: "/ProMirror_Presentation.html",
+      presentation: "/Medha_Inbrix_Presentation.html",
       featured: false,
     },
     {
-      id: 6,
+      id: 5,
       title: "Nesara Organics Website",
       description: "Complete website development and ongoing maintenance for Nesara Organics. Built a responsive, SEO-optimized website that showcases their organic products and brand story, with continuous updates and performance monitoring.",
       tech: ["Web Development", "SEO", "Website Maintenance", "Content Management"],
@@ -576,7 +529,7 @@ const Projects: React.FC = () => {
       featured: false,
     },
     {
-      id: 7,
+      id: 6,
       title: "Technosys India",
       description: "Digital marketing services for Technosys India, including strategy development, campaign management, and performance optimization. Helped increase online visibility and drive qualified leads through targeted digital marketing initiatives.",
       tech: ["Digital Marketing", "SEO", "Campaign Management", "Lead Generation"],
@@ -586,7 +539,7 @@ const Projects: React.FC = () => {
       featured: false,
     },
     {
-      id: 8,
+      id: 7,
       title: "Adima Cultural Center",
       description: "Complete website development for Adima Cultural Center, showcasing their cultural programs, events, and heritage initiatives. Built a modern, responsive website that reflects the center's mission and provides an engaging user experience for visitors and participants.",
       tech: ["Web Development", "Responsive Design", "Content Management", "Cultural Heritage"],
@@ -643,67 +596,6 @@ const Projects: React.FC = () => {
   );
 };
 
-type GalleryVideo = {
-  id: string;
-  title: string;
-  description: string;
-  src: string;
-};
-
-const Gallery: React.FC = () => {
-  const videos: GalleryVideo[] = [
-    {
-      id: "billinator-demo",
-      title: "Billinator Demo",
-      description: "Quick walkthrough of Billinator: GST billing, stock, and CRM workflows.",
-      src: billinatorDemoVideo,
-    },
-    {
-      id: "billinator-walkthrough",
-      title: "Billinator Walkthrough",
-      description: "Feature tour and UI flows for the Billinator application.",
-      src: billinatorMovVideo,
-    },
-  ];
-
-  return (
-    <section className="section" id="gallery">
-      <div className="section-header">
-        <div className="section-kicker">GALLERY</div>
-        <h2 className="section-title">Product videos & demos.</h2>
-        <p className="section-subtitle">
-          Short, focused demos that show real product flow—built with Medhā Labs engineering and design.
-        </p>
-      </div>
-
-      <div className="gallery-grid">
-        {videos.map((v) => (
-          <article key={v.id} className="gallery-card">
-            <div className="gallery-card-header">
-              <div>
-                <h3 className="gallery-title">{v.title}</h3>
-                <p className="gallery-description">{v.description}</p>
-              </div>
-            </div>
-
-            <div className="gallery-video-frame">
-              <video
-                className="gallery-video"
-                controls
-                playsInline
-                preload="metadata"
-              >
-                <source src={v.src} />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-};
-
 type Project = {
   id: number;
   title: string;
@@ -712,7 +604,6 @@ type Project = {
   category: string;
   link: string;
   presentation: string | null;
-  demoId?: string;
   featured: boolean;
 };
 
@@ -736,21 +627,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           ))}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "1rem" }}>
-          {project.demoId && (
-            <button
-              onClick={() => {
-                if (typeof window !== 'undefined' && (window as any).Supademo) {
-                  (window as any).Supademo.open(project.demoId);
-                }
-              }}
-              className="project-presentation-btn"
-              style={{ cursor: "pointer", textAlign: "left" }}
-            >
-              <span className="presentation-icon">🎬</span>
-              <span>Try the tour</span>
-              <span className="presentation-arrow">→</span>
-            </button>
-          )}
           {project.presentation && (
             <a
               href={project.presentation}
