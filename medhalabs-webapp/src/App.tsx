@@ -1,21 +1,22 @@
 import React, { useEffect, useRef } from "react";
 import "./index.css";
+import Loader from "./Loader";
 import logo from "./assets/medhalabs_logo.png";
 import client1 from "./assets/tsilogo.png";
 import client2 from "./assets/Nesara_Organicslogo.png";
-import client3 from "./assets/pūrṇāyai_organicslogo.png";
+import client3 from "./assets/purnayai_organicslogo.png";
 import client4 from "./assets/Adimalogo.png";
 import client5 from "./assets/medhalabs_logo.png";
-import founderImage from "./assets/founder_image.jpeg";
 
 const App: React.FC = () => {
+  const [loading, setLoading] = React.useState(true);
   const [scrollProgress, setScrollProgress] = React.useState(0);
 
   useEffect(() => {
-    // Initialize scroll animations
+    if (loading) return;
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px"
+      threshold: 0.08,
+      rootMargin: "0px 0px -40px 0px",
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -26,13 +27,12 @@ const App: React.FC = () => {
       });
     }, observerOptions);
 
-    // Observe all sections
-    const sections = document.querySelectorAll(".section, .hero, .card, .project-card");
+    const sections = document.querySelectorAll(".section");
     sections.forEach((section) => observer.observe(section));
 
-    // Scroll progress indicator
     const handleScroll = () => {
-      const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const windowHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
       const scrolled = (window.scrollY / windowHeight) * 100;
       setScrollProgress(scrolled);
     };
@@ -43,556 +43,421 @@ const App: React.FC = () => {
       sections.forEach((section) => observer.unobserve(section));
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [loading]);
 
   return (
-    <div className="app-shell">
-      <div className="animated-background"></div>
-      <div 
-        className="scroll-progress" 
+    <>
+      {loading && <Loader onComplete={() => setLoading(false)} />}
+      <div className={`app-shell${loading ? " app-shell--loading" : ""}`}>
+      <div
+        className="scroll-progress"
         style={{ transform: `scaleX(${scrollProgress / 100})` }}
-      ></div>
+      />
       <Navbar />
       <Hero />
+      <Marquee />
       <About />
+      <Stats />
       <Services />
       <Projects />
-      <Marketing />
+      <Differentiators />
       <Clients />
+      <Founder />
       <Contact />
       <Footer />
     </div>
+    </>
   );
 };
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const scrollTo = (id: string) => {
+    setMenuOpen(false);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <header className={`navbar ${scrolled ? "scrolled" : ""}`}>
-      <div className="container navbar-inner">
-        <div className="nav-left">
-          <span className="nav-logo-wrapper">
-            <img src={logo} alt="Medhā Labs Logo" className="nav-logo-img" loading="eager" />
+      <div className="navbar-inner">
+        <a href="#home" className="nav-brand" onClick={() => scrollTo("home")}>
+          <img
+            src={logo}
+            alt="Medhā Labs"
+            className="nav-logo-img"
+            loading="eager"
+          />
+          <span className="nav-logo-text">
+            <span className="accent">medhā</span>labs.
           </span>
-          <div>
-            <div className="nav-logo">Medhā Labs</div>
-            <div className="nav-tagline">Intelligence.Innovation.Impact</div>
-          </div>
-        </div>
+        </a>
 
-        <nav className="nav-links">
-          <a href="#about" className="nav-link">About</a>
-          <a href="#services" className="nav-link">Services</a>
-          <a href="#projects" className="nav-link">Projects</a>
-          <a href="#marketing" className="nav-link">Marketing</a>
-          <a href="#contact" className="nav-link">Contact</a>
+        <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
+          <a href="#about" className="nav-link" onClick={() => scrollTo("about")}>
+            About
+          </a>
+          <a href="#services" className="nav-link" onClick={() => scrollTo("services")}>
+            Services
+          </a>
+          <a href="#projects" className="nav-link" onClick={() => scrollTo("projects")}>
+            Projects
+          </a>
+          <a href="#contact" className="nav-link" onClick={() => scrollTo("contact")}>
+            Contact
+          </a>
         </nav>
+
+        <a
+          href="#contact"
+          className="nav-cta"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollTo("contact");
+          }}
+        >
+          Start Your Project
+        </a>
+
+        <button
+          className="nav-mobile-toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? "✕" : "☰"}
+        </button>
       </div>
     </header>
   );
 };
 
+const HERO_ORBITS = [
+  {
+    num: "01",
+    label: "Billinator",
+    cls: "orbit-sphere-1",
+    pos: "orbit-pos-a",
+    link: "https://www.billinator.in/",
+  },
+  {
+    num: "02",
+    label: "Medha Inbrix",
+    cls: "orbit-sphere-3",
+    pos: "orbit-pos-b",
+    link: "/Medha_Inbrix_Presentation.html",
+  },
+];
+
 const Hero: React.FC = () => {
-  const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100,
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  const scrollTo = (id: string) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <section className="hero" id="home">
-      <div className="hero-gradient" style={{
-        background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(255, 184, 28, 0.1), transparent 50%)`
-      }}></div>
       <div className="hero-inner">
         <div className="hero-content">
-          <div className="hero-badge animate-slide-down">
-            <span>⚙️ Medhā Labs</span>
-            <span>Software, Marketing & Brand Strategy</span>
+          <div className="hero-kicker">
+            Intelligence · Innovation · Impact
           </div>
-          <h1 className="hero-title animate-fade-in-up">Where wisdom powers modern software.</h1>
-          <p className="hero-subtitle animate-fade-in-up-delay">
-            Medhā Labs is a software development & digital marketing studio that
-            designs, builds, and promotes robust web applications. From idea to
-            production to market presence, we turn complex problems into reliable
-            digital products with strong brand visibility.
+          <div className="hero-headline">
+            <div className="hero-line-lead">We build</div>
+            <div className="hero-line-solid">Products that sell.</div>
+          </div>
+          <p className="hero-subtitle">
+            We don't just write code — we ship it. Software development, digital
+            marketing, and brand strategy that turns complex problems into
+            reliable products with real market presence.
           </p>
-          <div className="hero-cta animate-fade-in-up-delay-2">
-            <button
-              className="btn btn-primary btn-animated"
-              onClick={() =>
-                document
-                  .getElementById("contact")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              <span>Start a project</span>
-              <span className="btn-arrow">→</span>
+          <div className="hero-cta">
+            <button className="btn-primary" onClick={() => scrollTo("contact")}>
+              Start Your Project <span>→</span>
             </button>
-            <button
-              className="btn btn-outline btn-animated"
-              onClick={() =>
-                document
-                  .getElementById("services")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              View services
+            <button className="btn-ghost" onClick={() => scrollTo("projects")}>
+              See Work
             </button>
-          </div>
-          <div className="hero-pill animate-fade-in-up-delay-3">
-            <span className="pill-item">Web & API development</span>
-            <span className="pill-item">React · TypeScript · Python</span>
-            <span className="pill-item">Digital Marketing & Branding</span>
           </div>
         </div>
 
-        <aside className="hero-card animate-scale-in">
-        <div className="hero-card-header">
-          <div>
-            <div className="hero-chip">Full-stack services</div>
-            <div style={{ fontSize: "0.9rem", marginTop: "0.3rem" }}>
-              Code + Brand + Growth
-            </div>
+        <div className="hero-orbit">
+          <div className="orbit-lines">
+            <svg viewBox="0 0 400 500" fill="none">
+              <ellipse cx="200" cy="250" rx="160" ry="200" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+              <ellipse cx="200" cy="250" rx="120" ry="160" stroke="rgba(255,255,255,0.04)" strokeWidth="1" transform="rotate(20 200 250)" />
+            </svg>
           </div>
-          <span style={{ fontSize: "0.9rem" }}>● ● ●</span>
+          {HERO_ORBITS.map((item) => (
+            <a
+              key={item.num}
+              href={item.link}
+              className={`orbit-item ${item.pos}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className={`orbit-sphere ${item.cls}`} />
+              <span className="orbit-num">{item.num}</span>
+              <span className="orbit-label">{item.label}</span>
+            </a>
+          ))}
         </div>
-        <div className="hero-stat-row">
-          <div className="hero-stat">
-            <div className="hero-stat-label">Services</div>
-            <div className="hero-stat-value">Software + Marketing</div>
-          </div>
-          <div className="hero-stat">
-            <div className="hero-stat-label">Approach</div>
-            <div className="hero-stat-value">End‑to‑end delivery</div>
-          </div>
-        </div>
-        <div className="hero-stat-row">
-          <div className="hero-stat">
-            <div className="hero-stat-label">Stack</div>
-            <div className="hero-stat-value">
-              React · Python · SEO · Content
-            </div>
-          </div>
-          <div className="hero-stat">
-            <div className="hero-stat-label">Result</div>
-            <div className="hero-stat-value">Products that sell</div>
-          </div>
-        </div>
-      </aside>
+      </div>
+    </section>
+  );
+};
+
+const Marquee: React.FC = () => {
+  const items = [
+    "MEDHALABS.COM",
+    "SOFTWARE STUDIO",
+    "DIGITAL MARKETING",
+    "BRAND STRATEGY",
+    "FULL-STACK DELIVERY",
+    "REACT · PYTHON · SEO",
+  ];
+
+  const track = [...items, ...items, ...items, ...items];
+
+  return (
+    <div className="marquee-strip">
+      <div className="marquee-track">
+        {track.map((item, i) => (
+          <span key={i} className="marquee-item">
+            {item}
+            <span className="star">★</span>
+          </span>
+        ))}
+      </div>
     </div>
-  </section>
   );
 };
 
 const About: React.FC = () => (
   <section className="section" id="about">
-    <div className="section-header">
-      <div className="section-kicker">ABOUT MEDHĀ LABS</div>
-      <h2 className="section-title">Software studio with a lab mindset.</h2>
-      <p className="section-subtitle">
-        Medhā Labs combines disciplined engineering with an experimental
-        approach. We validate ideas quickly, ship dependable software, and build
-        strong brand presence to ensure your product reaches the right audience.
-      </p>
-    </div>
-
-    {/* Core pillars */}
-    <div className="grid-3" style={{ marginBottom: "2.5rem" }}>
-      <div className="card">
-        <div className="card-icon">🎯</div>
-        <h3 className="card-title">Product‑oriented thinking</h3>
-        <p className="card-body">
-          We focus on outcomes, not just tickets. Every feature is tied to a
-          clear user or business goal so you build what truly matters.
+    <div className="about-grid">
+      <div>
+        <div className="section-badge">More Than A Studio</div>
+        <h2 className="about-pitch-title">
+          We are your <em>in-house</em> product & growth team.
+        </h2>
+        <p className="about-pitch-text">
+          Medhā Labs combines disciplined engineering with an experimental
+          approach. We validate ideas quickly, ship dependable software, and build
+          strong brand presence to ensure your product reaches the right audience.
         </p>
-      </div>
-
-      <div className="card">
-        <div className="card-icon">🧩</div>
-        <h3 className="card-title">Full‑stack capability</h3>
-        <p className="card-body">
-          Frontend, backend, APIs, databases, integrations, and marketing — one
-          team that can design and deliver the complete solution.
-        </p>
-      </div>
-
-      <div className="card">
-        <div className="card-icon">🤝</div>
-        <h3 className="card-title">Long‑term partnership</h3>
-        <p className="card-body">
-          We stay after launch: monitoring, improving, extending your systems,
-          and growing your user base through strategic marketing.
-        </p>
-      </div>
-    </div>
-
-    {/* Founder section */}
-    <div className="container founder-container">
-      <div className="founder-section">
-        <div className="founder-header">
-          <span className="founder-badge">Founder & Lead</span>
-          <div className="founder-name-section">
-            <div className="founder-image-wrapper">
-              <img
-                src={founderImage}
-                alt="Pavan Raj K G - Founder"
-                className="founder-image"
-              />
-            </div>
-            <div className="founder-name-content">
-              <h3 className="founder-name">Pavan Raj K G</h3>
-              <p className="founder-role">Founder & Full‑Stack Developer, Medhā Labs</p>
-            </div>
-          </div>
+        <div className="about-links">
+          <a href="#services" className="btn-primary">
+            Our Services →
+          </a>
+          <a href="#about-founder" className="btn-ghost">
+            Meet the Founder
+          </a>
         </div>
-
-        <div className="founder-content-grid">
-          <div className="founder-main">
-            <div className="founder-description">
-              <p>
-                With a background in building real‑world products and growing digital
-                presence for businesses, <strong>Pavan Raj K G</strong> started Medhā Labs in 2022
-                to help companies turn ideas into reliable software that sells. The focus is on clean
-                architecture, clear communication, smart marketing, and shipping value
-                in small, continuous steps.
-              </p>
-            </div>
-
-            <div className="founder-stats">
-              <div className="founder-stat-item">
-                <span className="stat-number">2022</span>
-                <span className="stat-label">Founded</span>
-              </div>
-              <div className="founder-stat-item">
-                <span className="stat-number">7+</span>
-                <span className="stat-label">Projects</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="founder-sidebar">
-            <div className="founder-beliefs">
-              <h4 className="founder-sidebar-title">Core Principles</h4>
-              <ul className="beliefs-list">
-                <li>Simple, maintainable code over clever hacks</li>
-                <li>Understanding business goals before writing features</li>
-                <li>Smart branding that communicates product value clearly</li>
-                <li>Building long‑term relationships, not one‑off projects</li>
-              </ul>
-            </div>
-
-            <div className="founder-connect">
-              <h4 className="founder-sidebar-title">Connect</h4>
-              <div className="connect-links">
-                <a
-                  href="mailto:medhalabs04@gmail.com"
-                  className="connect-link"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Email
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/pavanrajkg/"
-                  className="connect-link"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  LinkedIn
-                </a>
-              </div>
-            </div>
-          </div>
+      </div>
+      <div className="about-stats">
+        <div className="stat-card">
+          <div className="stat-number">7+</div>
+          <div className="stat-label">Projects Delivered</div>
+          <div className="stat-context">Software & marketing</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-number">2022</div>
+          <div className="stat-label">Founded</div>
+          <div className="stat-context">Bangalore, India</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-number">2</div>
+          <div className="stat-label">Core Disciplines</div>
+          <div className="stat-context">Dev + Marketing</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-number">E2E</div>
+          <div className="stat-label">Delivery Model</div>
+          <div className="stat-context">Idea to production</div>
         </div>
       </div>
     </div>
   </section>
 );
 
-const Services: React.FC = () => (
-  <section className="section" id="services">
-    <div className="section-header">
-      <div className="section-kicker">SOFTWARE DEVELOPMENT</div>
-      <h2 className="section-title">What Medhā Labs builds for you.</h2>
-      <p className="section-subtitle">
-        End‑to‑end software development services, from discovery and architecture
-        to coding, testing and deployment.
-      </p>
+const Stats: React.FC = () => (
+  <section className="section" style={{ paddingTop: 0 }}>
+    <div className="section-header section-header-center">
+      <div className="section-badge">Real Results</div>
+      <h2 className="section-title">What we've</h2>
+      <h2 className="section-title section-title-outline">delivered.</h2>
     </div>
-
-    <div className="grid-3">
-      {[
-        { icon: "💻", title: "Web applications", body: "Responsive, maintainable web apps built with React and TypeScript, backed by robust APIs." },
-        { icon: "🔌", title: "APIs & integrations", body: "REST/GraphQL APIs, third‑party integrations, and internal tools that connect your systems." },
-        { icon: "☁️", title: "Cloud‑ready backends", body: "Scalable backends on AWS, Azure or other cloud providers, with CI/CD and monitoring in place." },
-        { icon: "🧪", title: "Prototypes & MVPs", body: "Launch quickly with well‑structured MVPs you can iterate on, not throw away." },
-        { icon: "🛠️", title: "Modernisation", body: "Refactor legacy apps, improve performance, and bring older systems to modern stacks." },
-        { icon: "📈", title: "Ongoing development", body: "Dedicated capacity for continuous improvements, new features and maintenance." },
-      ].map((service, index) => (
-        <div key={index} style={{ animationDelay: `${index * 0.1}s` }}>
-          <ServiceCard
-            icon={service.icon}
-            title={service.title}
-            body={service.body}
-          />
-        </div>
-      ))}
-    </div>
-  </section>
-);
-
-const Marketing: React.FC = () => (
-  <section className="section" id="marketing" style={{ backgroundColor: "rgba(31, 71, 136, 0.05)" }}>
-    <div className="section-header">
-      <div className="section-kicker">DIGITAL MARKETING & BRANDING</div>
-      <h2 className="section-title">Grow your product with smart marketing.</h2>
-      <p className="section-subtitle">
-        A great product deserves great visibility. We combine branding, content
-        strategy, and digital marketing to help your software reach its audience.
-      </p>
-    </div>
-
-    <div className="grid-3">
-      <ServiceCard
-        icon="🎨"
-        title="Brand Strategy & Design"
-        body="Logo, color palette, brand guidelines, and visual identity that communicate your product's value."
-      />
-      <ServiceCard
-        icon="📝"
-        title="Content & SEO"
-        body="Website copy, blog articles, landing pages, and SEO optimization to attract organic traffic."
-      />
-      <ServiceCard
-        icon="📱"
-        title="Social Media & Growth"
-        body="LinkedIn strategy, Twitter campaigns, and social media management to build community and awareness."
-      />
-      <ServiceCard
-        icon="🎯"
-        title="Digital Advertising"
-        body="Google Ads, Facebook/Instagram ads, and targeted campaigns to drive conversions and leads."
-      />
-      <ServiceCard
-        icon="📊"
-        title="Analytics & Insights"
-        body="Performance tracking, user behavior analysis, and data-driven recommendations for growth."
-      />
-      <ServiceCard
-        icon="💬"
-        title="Email & Messaging"
-        body="Email campaigns, newsletters, and messaging strategy to nurture users and build retention."
-      />
-    </div>
-
-    {/* Marketing + Software synergy */}
-    <div
-      className="container"
-      style={{
-        maxWidth: "900px",
-        marginTop: "2.5rem",
-      }}
-    >
-      <div className="card" style={{ backgroundColor: "#ffffff" }}>
-        <h3 style={{ color: "var(--color-primary)", marginBottom: "0.75rem" }}>
-          🚀 Why Medhā Labs for both software & marketing?
-        </h3>
-        <p style={{ fontSize: "0.9rem", color: "var(--color-text-light)" }}>
-          Building great software isn't enough—it needs to reach the right people.
-          By combining development and marketing under one roof, we ensure your
-          product messaging aligns with its technical capabilities. One cohesive
-          team, one vision, one result: <strong>products that work and sell.</strong>
-        </p>
+    <div className="about-stats" style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="stat-card">
+        <div className="stat-number">GST</div>
+        <div className="stat-label">Billing Platform</div>
+        <div className="stat-context">Billinator — open source</div>
+      </div>
+      <div className="stat-card">
+        <div className="stat-number">AI</div>
+        <div className="stat-label">Shared Inbox</div>
+        <div className="stat-context">Medha Inbrix product</div>
+      </div>
+      <div className="stat-card">
+        <div className="stat-number">5+</div>
+        <div className="stat-label">Brands Supported</div>
+        <div className="stat-context">Marketing & web dev</div>
+      </div>
+      <div className="stat-card">
+        <div className="stat-number">100%</div>
+        <div className="stat-label">End-to-End</div>
+        <div className="stat-context">Code + brand + growth</div>
       </div>
     </div>
   </section>
 );
 
-type ServiceCardProps = {
+type Service = {
+  num: string;
   icon: string;
   title: string;
   body: string;
+  accent: string;
 };
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ icon, title, body }) => {
-  const [isHovered, setIsHovered] = React.useState(false);
+const ALL_SERVICES: Service[] = [
+  {
+    num: "01",
+    icon: "💻",
+    title: "Web Applications",
+    body: "Responsive, maintainable web apps built with React and TypeScript, backed by robust APIs.",
+    accent: "purple",
+  },
+  {
+    num: "02",
+    icon: "🔌",
+    title: "APIs & Integrations",
+    body: "REST/GraphQL APIs, third-party integrations, and internal tools that connect your systems.",
+    accent: "pink",
+  },
+  {
+    num: "03",
+    icon: "☁️",
+    title: "Cloud Backends",
+    body: "Scalable backends on AWS, Azure or other cloud providers, with CI/CD and monitoring in place.",
+    accent: "orange",
+  },
+  {
+    num: "04",
+    icon: "🎨",
+    title: "Brand Strategy",
+    body: "Logo, color palette, brand guidelines, and visual identity that communicate your product's value.",
+    accent: "blue",
+  },
+  {
+    num: "05",
+    icon: "📝",
+    title: "Content & SEO",
+    body: "Website copy, blog articles, landing pages, and SEO optimization to attract organic traffic.",
+    accent: "green",
+  },
+  {
+    num: "06",
+    icon: "📱",
+    title: "Social & Growth",
+    body: "LinkedIn strategy, social campaigns, and digital advertising to build community and drive leads.",
+    accent: "lime",
+  },
+  {
+    num: "07",
+    icon: "🧪",
+    title: "Prototypes & MVPs",
+    body: "Launch quickly with well-structured MVPs you can iterate on, not throw away.",
+    accent: "purple",
+  },
+  {
+    num: "08",
+    icon: "📊",
+    title: "Analytics",
+    body: "Performance tracking, user behavior analysis, and data-driven recommendations for growth.",
+    accent: "pink",
+  },
+  {
+    num: "09",
+    icon: "🛠️",
+    title: "Ongoing Dev",
+    body: "Dedicated capacity for continuous improvements, new features and maintenance.",
+    accent: "orange",
+  },
+];
+
+const Services: React.FC = () => {
+  const [showAll, setShowAll] = React.useState(false);
+  const visible = showAll ? ALL_SERVICES : ALL_SERVICES.slice(0, 6);
 
   return (
-    <article 
-      className="card card-animated"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className={`card-icon ${isHovered ? "icon-bounce" : ""}`}>{icon}</div>
-      <h3 className="card-title">{title}</h3>
-      <p className="card-body">{body}</p>
-      <div className={`card-hover-effect ${isHovered ? "active" : ""}`}></div>
-    </article>
-  );
-};
-
-
-const Projects: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
-  const projects = [
-    {
-      id: 1,
-      title: "Portik",
-      description: "A portfolio + trade journal SaaS for active traders built for execution review. Portik helps traders track executions, capture context, and measure what works with clean, server-side analytics. Features trade capture, journaling with strategy/emotion tagging, performance insights, and transparent unrealized P&L calculations. No signals, no advice—just analytics.",
-      tech: ["SaaS", "Trade Journal", "Portfolio Analytics", "FastAPI", "Postgres"],
-      category: "Software Development",
-      link: "https://www.portik.in/",
-      presentation: null,
-      featured: true,
-    },
-    {
-      id: 2,
-      title: "Billinator",
-      description: "Open source GST billing and stock management application with comprehensive inventory management and CRM capabilities. Streamlines business operations with automated invoicing, tax compliance, and customer relationship tracking.",
-      tech: ["Open Source", "GST Billing", "Inventory Management", "CRM"],
-      category: "Software Development",
-      link: "#",
-      presentation: "/billinator_presentation.html",
-      featured: true,
-    },
-    {
-      id: 3,
-      title: "Nesara Organics & Purnayi Organics",
-      description: "Comprehensive branding and marketing support for organic products companies. Delivered complete brand identity, marketing strategy, and digital presence to help these brands connect with their target audience and grow their market share.",
-      tech: ["Branding", "Marketing Strategy", "Digital Marketing", "Brand Identity"],
-      category: "Marketing & Branding",
-      link: "#",
-      presentation: null,
-      featured: false,
-    },
-    {
-      id: 4,
-      title: "Medha Inbrix",
-      description: "AI-powered shared inbox by Medhā Labs. Route, assign, and resolve customer conversations with AI assistance. One inbox for the whole team—keep everyone in sync without the chaos.",
-      tech: ["Shared Inbox", "Teams & Routing", "AI-ready", "Customer Conversations"],
-      category: "Software Development",
-      link: "#",
-      presentation: "/Medha_Inbrix_Presentation.html",
-      featured: false,
-    },
-    {
-      id: 5,
-      title: "Nesara Organics Website",
-      description: "Complete website development and ongoing maintenance for Nesara Organics. Built a responsive, SEO-optimized website that showcases their organic products and brand story, with continuous updates and performance monitoring.",
-      tech: ["Web Development", "SEO", "Website Maintenance", "Content Management"],
-      category: "Web Development",
-      link: "#",
-      presentation: null,
-      featured: false,
-    },
-    {
-      id: 6,
-      title: "Technosys India",
-      description: "Digital marketing services for Technosys India, including strategy development, campaign management, and performance optimization. Helped increase online visibility and drive qualified leads through targeted digital marketing initiatives.",
-      tech: ["Digital Marketing", "SEO", "Campaign Management", "Lead Generation"],
-      category: "Marketing & Branding",
-      link: "#",
-      presentation: null,
-      featured: false,
-    },
-    {
-      id: 7,
-      title: "Adima Cultural Center",
-      description: "Complete website development for Adima Cultural Center, showcasing their cultural programs, events, and heritage initiatives. Built a modern, responsive website that reflects the center's mission and provides an engaging user experience for visitors and participants.",
-      tech: ["Web Development", "Responsive Design", "Content Management", "Cultural Heritage"],
-      category: "Web Development",
-      link: "#",
-      presentation: null,
-      featured: false,
-    },
-  ];
-
-  const [filter, setFilter] = React.useState<string>("all");
-  const categories = ["all", ...Array.from(new Set(projects.map(p => p.category)))];
-
-  const filteredProjects = filter === "all" 
-    ? projects 
-    : projects.filter(p => p.category === filter);
-
-  return (
-    <section 
-      ref={sectionRef as React.RefObject<HTMLElement>}
-      className="section fade-in" 
-      id="projects" 
-      style={{ backgroundColor: "rgba(31, 71, 136, 0.02)" }}
-    >
-      <div className="section-header">
-        <div className="section-kicker">OUR PROJECTS</div>
-        <h2 className="section-title">Work that speaks for itself.</h2>
+    <section className="section" id="services">
+      <div className="section-header section-header-center">
+        <div className="section-badge">Services</div>
+        <h2 className="section-title">What we do.</h2>
         <p className="section-subtitle">
-          From web applications to brand identities, explore the projects we've built
-          for clients across different industries and use cases.
+          Hover any card to see what we do — click to flip and explore the full
+          service.
         </p>
       </div>
 
-      {/* Filter buttons */}
-      <div className="projects-filter">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            className={`filter-btn ${filter === cat ? "active" : ""}`}
-            onClick={() => setFilter(cat)}
-          >
-            {cat.charAt(0).toUpperCase() + cat.slice(1)}
-          </button>
+      <div className="services-grid">
+        {visible.map((service) => (
+          <FlipCard key={service.num} service={service} />
         ))}
       </div>
 
-      {/* Projects grid */}
-      <div className="projects-grid">
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </div>
+      {!showAll && (
+        <button className="show-more-btn" onClick={() => setShowAll(true)}>
+          Show {ALL_SERVICES.length - 6} More Services
+        </button>
+      )}
     </section>
+  );
+};
+
+const FlipCard: React.FC<{ service: Service }> = ({ service }) => {
+  const [flipped, setFlipped] = React.useState(false);
+
+  return (
+    <div
+      className={`flip-card ${flipped ? "flipped" : ""}`}
+      data-accent={service.accent}
+      onClick={() => setFlipped(!flipped)}
+    >
+      <div className="flip-card-inner">
+        <div className="flip-card-front">
+          <div className="flip-card-top">
+            <div className="flip-icon">{service.icon}</div>
+            <div className="flip-badge">↻ flip</div>
+          </div>
+          <div>
+            <div className="flip-num">{service.num}</div>
+            <div className="flip-title">{service.title}</div>
+          </div>
+          <div className="flip-card-bottom">
+            <span />
+            <div className="flip-arrow">→</div>
+          </div>
+        </div>
+        <div className="flip-card-back">
+          <div>
+            <div className="flip-num">{service.num}</div>
+            <div className="flip-title">{service.title}</div>
+          </div>
+          <p className="flip-body">{service.body}</p>
+          <div className="flip-card-bottom">
+            <span />
+            <div className="flip-arrow">→</div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -605,77 +470,255 @@ type Project = {
   link: string;
   presentation: string | null;
   featured: boolean;
+  metric: string;
+  metricLabel: string;
 };
 
-type ProjectCardProps = {
-  project: Project;
-};
+const PROJECTS: Project[] = [
+  {
+    id: 1,
+    title: "Billinator",
+    description:
+      "Open source GST billing and stock management with inventory, CRM, and automated tax compliance.",
+    tech: ["Open Source", "GST Billing", "Inventory", "CRM"],
+    category: "Software Development",
+    link: "https://www.billinator.in/",
+    presentation: null,
+    featured: true,
+    metric: "GST",
+    metricLabel: "Billing platform",
+  },
+  {
+    id: 3,
+    title: "Nesara & Purnayi Organics",
+    description:
+      "Complete brand identity and marketing strategy for organic product companies.",
+    tech: ["Branding", "Marketing", "Digital", "Identity"],
+    category: "Marketing & Branding",
+    link: "#",
+    presentation: null,
+    featured: false,
+    metric: "0→1",
+    metricLabel: "Brand built",
+  },
+  {
+    id: 4,
+    title: "Medha Inbrix",
+    description:
+      "AI-powered shared inbox. Route, assign, and resolve customer conversations with AI assistance.",
+    tech: ["Shared Inbox", "AI-ready", "Teams", "Routing"],
+    category: "Software Development",
+    link: "#",
+    presentation: "/Medha_Inbrix_Presentation.html",
+    featured: false,
+    metric: "AI",
+    metricLabel: "Powered inbox",
+  },
+  {
+    id: 5,
+    title: "Nesara Organics Website",
+    description:
+      "Responsive, SEO-optimized website with ongoing maintenance and performance monitoring.",
+    tech: ["Web Dev", "SEO", "CMS", "Maintenance"],
+    category: "Web Development",
+    link: "#",
+    presentation: null,
+    featured: false,
+    metric: "SEO",
+    metricLabel: "Optimized site",
+  },
+  {
+    id: 6,
+    title: "Technosys India",
+    description:
+      "Digital marketing strategy, campaign management, and lead generation optimization.",
+    tech: ["Digital Marketing", "SEO", "Campaigns", "Leads"],
+    category: "Marketing & Branding",
+    link: "#",
+    presentation: null,
+    featured: false,
+    metric: "Leads",
+    metricLabel: "Generated",
+  },
+  {
+    id: 7,
+    title: "Adima Cultural Center",
+    description:
+      "Modern responsive website showcasing cultural programs, events, and heritage initiatives.",
+    tech: ["Web Dev", "Responsive", "CMS", "Heritage"],
+    category: "Web Development",
+    link: "#",
+    presentation: null,
+    featured: false,
+    metric: "Web",
+    metricLabel: "Full redesign",
+  },
+];
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+const Projects: React.FC = () => {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const handleScroll = () => {
+      const slideWidth = 340 + 20;
+      const index = Math.round(track.scrollLeft / slideWidth);
+      setActiveIndex(Math.min(index, PROJECTS.length - 1));
+    };
+
+    track.addEventListener("scroll", handleScroll, { passive: true });
+    return () => track.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    const track = trackRef.current;
+    if (!track) return;
+    isDragging.current = true;
+    startX.current = e.pageX - track.offsetLeft;
+    scrollLeft.current = track.scrollLeft;
+  };
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current || !trackRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - trackRef.current.offsetLeft;
+    trackRef.current.scrollLeft =
+      scrollLeft.current - (x - startX.current) * 1.5;
+  };
+
+  const onMouseUp = () => {
+    isDragging.current = false;
+  };
+
   return (
-    <article 
-      className={`project-card ${project.featured ? "featured" : ""}`}
-    >
-      <div className="project-content">
-        {project.featured && <span className="project-badge">Featured</span>}
-        <div className="project-category">{project.category}</div>
-        <h3 className="project-title">{project.title}</h3>
-        <p className="project-description">{project.description}</p>
-        <div className="project-tech">
-          {project.tech.map((tech, idx) => (
-            <span key={idx} className="tech-tag">{tech}</span>
-          ))}
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "1rem" }}>
-          {project.presentation && (
-            <a
-              href={project.presentation}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="project-presentation-btn"
-            >
-              <span className="presentation-icon">📊</span>
-              <span>View Presentation</span>
-              <span className="presentation-arrow">→</span>
-            </a>
-          )}
-          {project.link && project.link !== "#" && (
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="project-presentation-btn"
-            >
-              <span className="presentation-icon">🌐</span>
-              <span>Visit Website</span>
-              <span className="presentation-arrow">→</span>
-            </a>
-          )}
-        </div>
-      </div>
-    </article>
-  );
-};
-
-const Clients: React.FC = () => {
-  const logos = [client1, client2, client3, client4, client5];
-
-  return (
-    <section className="section" id="clients">
+    <section className="section" id="projects">
       <div className="section-header">
-        <div className="section-kicker">OUR CLIENTS</div>
-        <h2 className="section-title">Brands that trust Medhā Labs.</h2>
+        <div className="section-badge">Portfolio · {PROJECTS.length} Projects</div>
+        <h2 className="section-title">Check out</h2>
+        <h2 className="section-title section-title-outline">our work.</h2>
         <p className="section-subtitle">
-          We partner with startups, small businesses, and growing brands across
-          different industries to build products and drive digital growth.
+          Drag to explore projects we've built for clients across software,
+          marketing, and web development.
         </p>
       </div>
 
-      <div className="clients-strip-wrapper">
-        <div className="clients-strip">
-          {[...logos, ...logos].map((logoSrc, idx) => (
-            <div className="client-logo" key={idx}>
-              <img src={logoSrc} alt={`Client ${idx + 1}`} loading="lazy" />
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <p className="projects-scroll-hint">drag to explore →</p>
+        <div
+          ref={trackRef}
+          className="projects-track"
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
+          onMouseLeave={onMouseUp}
+        >
+          {PROJECTS.map((project, i) => (
+            <article
+              key={project.id}
+              className={`project-slide ${project.featured ? "featured" : ""}`}
+            >
+              {project.featured && (
+                <span className="project-badge">Featured</span>
+              )}
+              <div className="project-slide-num">
+                {String(i + 1).padStart(2, "0")}
+              </div>
+              <div className="project-metric">{project.metric}</div>
+              <div className="project-metric-label">{project.metricLabel}</div>
+              <div className="project-category">{project.category}</div>
+              <h3 className="project-title">{project.title}</h3>
+              <p className="project-description">{project.description}</p>
+              <div className="project-tech">
+                {project.tech.map((t) => (
+                  <span key={t} className="tech-tag">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              {project.presentation && (
+                <a
+                  href={project.presentation}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="project-link"
+                >
+                  View Presentation →
+                </a>
+              )}
+              {project.link && project.link !== "#" && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="project-link"
+                  style={{ marginTop: "0.5rem", display: "block" }}
+                >
+                  Visit Website →
+                </a>
+              )}
+            </article>
+          ))}
+        </div>
+        <div className="projects-counter">
+          {String(activeIndex + 1).padStart(2, "0")} /{" "}
+          {String(PROJECTS.length).padStart(2, "0")}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const DIFFERENTIATORS = [
+  {
+    stat: "E2E",
+    title: "End-to-End Delivery",
+    body: "From discovery to deployment to marketing — one team handles the complete product lifecycle.",
+  },
+  {
+    stat: "Full-Stack",
+    title: "Code + Brand + Growth",
+    body: "Software and marketing under one roof so your messaging aligns with technical capabilities.",
+  },
+  {
+    stat: "MVP",
+    title: "Ship Fast, Iterate Smart",
+    body: "Well-structured MVPs you can build on — not throwaway prototypes.",
+  },
+  {
+    stat: "24/7",
+    title: "Long-Term Partnership",
+    body: "We stay after launch: monitoring, improving, and growing your user base.",
+  },
+  {
+    stat: "Clean",
+    title: "Maintainable Architecture",
+    body: "Simple, maintainable code over clever hacks. Built to scale with your business.",
+  },
+];
+
+const Differentiators: React.FC = () => {
+  const items = [...DIFFERENTIATORS, ...DIFFERENTIATORS];
+
+  return (
+    <section className="section">
+      <div className="section-header section-header-center">
+        <div className="section-badge">Launch Sequence</div>
+        <h2 className="section-title">What makes</h2>
+        <h2 className="section-title section-title-outline">us different?</h2>
+      </div>
+      <div className="diff-track">
+        <div className="diff-scroll">
+          {items.map((item, i) => (
+            <div key={i} className="diff-card">
+              <div className="diff-stat">{item.stat}</div>
+              <div className="diff-title">{item.title}</div>
+              <p className="diff-body">{item.body}</p>
             </div>
           ))}
         </div>
@@ -684,179 +727,288 @@ const Clients: React.FC = () => {
   );
 };
 
+const Clients: React.FC = () => {
+  const logos = [client1, client2, client3, client4, client5];
 
-const Contact: React.FC = () => (
-  <section className="section" id="contact">
-    <div className="section-header">
-      <div className="section-kicker">CONTACT</div>
-      <h2 className="section-title">Let's talk about your project.</h2>
-      <p className="section-subtitle">
-        Share a brief about what you want to build and how you want to grow,
-        and we will respond with timelines, approach and ballpark estimates.
-      </p>
-    </div>
-
-    <div className="container" style={{ maxWidth: "640px" }}>
-      <form
-        className="card"
-        onSubmit={(e) => {
-          e.preventDefault();
-          alert("This is a demo form. Hook it to your backend or email.");
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gap: "0.9rem",
-          }}
-        >
-          <LabeledInput label="Name" required placeholder="Your name" />
-          <LabeledInput
-            label="Email"
-            type="email"
-            required
-            placeholder="you@company.com"
-          />
-          <LabeledInput
-            label="Company"
-            placeholder="Company or project name"
-          />
-          <LabeledSelect
-            label="What do you need?"
-            required
-            options={[
-              { value: "", label: "Select an option" },
-              { value: "software", label: "Software Development" },
-              { value: "marketing", label: "Digital Marketing & Branding" },
-              { value: "both", label: "Both (Software + Marketing)" },
-              { value: "other", label: "Other / Not sure" },
-            ]}
-          />
-          <LabeledTextArea
-            label="Project brief"
-            required
-            placeholder="Tell us what you want to build, your goals and timeline."
-          />
+  return (
+    <section className="section" id="clients">
+      <div className="section-header section-header-center">
+        <div className="section-badge">Trusted By</div>
+        <h2 className="section-title">Brands that trust</h2>
+        <h2 className="section-title section-title-outline">Medhā Labs.</h2>
+      </div>
+      <div className="clients-strip-wrapper">
+        <div className="clients-strip">
+          {[...logos, ...logos, ...logos, ...logos].map((logoSrc, idx) => (
+            <div className="client-logo" key={idx}>
+              <img src={logoSrc} alt={`Client ${(idx % logos.length) + 1}`} loading="lazy" />
+            </div>
+          ))}
         </div>
-        <button type="submit" className="btn btn-primary" style={{ marginTop: "1rem" }}>
-          Send enquiry
-        </button>
-        <p
-          style={{
-            fontSize: "0.8rem",
-            color: "var(--color-text-light)",
-            marginTop: "0.75rem",
-          }}
-        >
-          Prefer email? Write to{" "}
-          <a href="mailto:medhalabs04@gmail.com">medhalabs04@gmail.com</a>.
+      </div>
+    </section>
+  );
+};
+
+const Founder: React.FC = () => (
+  <section className="section" id="about-founder">
+    <div className="founder-block">
+      <div className="founder-header">
+        <div className="founder-badge">Founder & Lead</div>
+        <h3 className="founder-name">Pavan Raj K G</h3>
+        <p className="founder-role">
+          Founder & Full-Stack Developer, Medhā Labs
         </p>
-      </form>
+      </div>
+      <div className="founder-grid">
+        <div>
+          <p className="founder-text">
+            With a background in building real-world products and growing digital
+            presence for businesses, <strong>Pavan Raj K G</strong> started Medhā
+            Labs in 2022 to help companies turn ideas into reliable software that
+            sells. The focus is on clean architecture, clear communication, smart
+            marketing, and shipping value in small, continuous steps.
+          </p>
+          <div className="founder-mini-stats">
+            <div className="stat-card">
+              <div className="stat-number">2022</div>
+              <div className="stat-label">Founded</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">7+</div>
+              <div className="stat-label">Projects</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className="founder-sidebar-block">
+            <h4 className="founder-sidebar-title">Core Principles</h4>
+            <ul className="beliefs-list">
+              <li>Simple, maintainable code over clever hacks</li>
+              <li>Understanding business goals before writing features</li>
+              <li>Smart branding that communicates product value</li>
+              <li>Building long-term relationships, not one-off projects</li>
+            </ul>
+          </div>
+          <div className="founder-sidebar-block">
+            <h4 className="founder-sidebar-title">Connect</h4>
+            <div className="connect-links">
+              <a
+                href="mailto:medhalabs04@gmail.com"
+                className="connect-link"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Email
+              </a>
+              <a
+                href="https://www.linkedin.com/in/pavanrajkg/"
+                className="connect-link"
+                target="_blank"
+                rel="noreferrer"
+              >
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 );
 
-type LabeledInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  label: string;
-};
+const Contact: React.FC = () => {
+  const [status, setStatus] = React.useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
 
-const LabeledInput: React.FC<LabeledInputProps> = ({ label, ...props }) => (
-  <label style={{ fontSize: "0.85rem", display: "block" }}>
-    <div style={{ marginBottom: "0.25rem", fontWeight: 500 }}>{label}</div>
-    <input
-      {...props}
-      style={{
-        width: "100%",
-        borderRadius: "0.5rem",
-        border: "1px solid #cbd5e1",
-        padding: "0.55rem 0.7rem",
-        fontSize: "0.9rem",
-      }}
-    />
-  </label>
-);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("sending");
 
-type LabeledSelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
-  label: string;
-  options: { value: string; label: string }[];
-};
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-const LabeledSelect: React.FC<LabeledSelectProps> = ({ label, options, ...props }) => (
-  <label style={{ fontSize: "0.85rem", display: "block" }}>
-    <div style={{ marginBottom: "0.25rem", fontWeight: 500 }}>{label}</div>
-    <select
-      {...props}
-      style={{
-        width: "100%",
-        borderRadius: "0.5rem",
-        border: "1px solid #cbd5e1",
-        padding: "0.55rem 0.7rem",
-        fontSize: "0.9rem",
-      }}
-    >
-      {options.map((opt) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.label}
-        </option>
-      ))}
-    </select>
-  </label>
-);
+    try {
+      const response = await fetch(
+        "https://formsubmit.co/ajax/medhalabs04@gmail.com",
+        {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: formData,
+        }
+      );
 
-type LabeledTextAreaProps =
-  React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
-    label: string;
+      if (response.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
-const LabeledTextArea: React.FC<LabeledTextAreaProps> = ({
-  label,
-  ...props
-}) => (
-  <label style={{ fontSize: "0.85rem", display: "block" }}>
-    <div style={{ marginBottom: "0.25rem", fontWeight: 500 }}>{label}</div>
-    <textarea
-      {...props}
-      rows={4}
-      style={{
-        width: "100%",
-        borderRadius: "0.5rem",
-        border: "1px solid #cbd5e1",
-        padding: "0.55rem 0.7rem",
-        fontSize: "0.9rem",
-        resize: "vertical",
-      }}
-    />
-  </label>
-);
+  return (
+    <section className="contact-cta-section" id="contact">
+      <p className="contact-cta-kicker">Ready to build?</p>
+      <h2 className="contact-cta-title">Let's build something.</h2>
+
+      <div className="contact-form-wrap">
+        <form className="contact-form" onSubmit={handleSubmit}>
+          <input
+            type="hidden"
+            name="_subject"
+            value="New enquiry from Medhā Labs website"
+          />
+          <input type="hidden" name="_captcha" value="false" />
+          <div className="form-grid">
+            <div className="form-field">
+              <label>Name</label>
+              <input name="name" required placeholder="Your name" />
+            </div>
+            <div className="form-field">
+              <label>Email</label>
+              <input
+                name="email"
+                type="email"
+                required
+                placeholder="you@company.com"
+              />
+            </div>
+            <div className="form-field">
+              <label>Company</label>
+              <input name="company" placeholder="Company or project name" />
+            </div>
+            <div className="form-field">
+              <label>What do you need?</label>
+              <select name="need" required defaultValue="">
+                <option value="" disabled>
+                  Select an option
+                </option>
+                <option value="software">Software Development</option>
+                <option value="marketing">Digital Marketing & Branding</option>
+                <option value="both">Both (Software + Marketing)</option>
+                <option value="other">Other / Not sure</option>
+              </select>
+            </div>
+            <div className="form-field">
+              <label>Project brief</label>
+              <textarea
+                name="message"
+                required
+                rows={4}
+                placeholder="Tell us what you want to build, your goals and timeline."
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="btn-primary"
+            style={{ marginTop: "1.25rem", width: "100%", justifyContent: "center" }}
+            disabled={status === "sending"}
+          >
+            {status === "sending" ? "Sending…" : "Send Enquiry →"}
+          </button>
+          {status === "success" && (
+            <p className="form-status-success">
+              Thanks! Your enquiry has been sent. We'll get back to you soon.
+            </p>
+          )}
+          {status === "error" && (
+            <p className="form-status-error">
+              Something went wrong. Please try again or email us directly.
+            </p>
+          )}
+          <p className="form-note">
+            Prefer email? Write to{" "}
+            <a href="mailto:medhalabs04@gmail.com">medhalabs04@gmail.com</a>.
+          </p>
+        </form>
+      </div>
+    </section>
+  );
+};
 
 const Footer: React.FC = () => (
   <footer className="footer">
     <div className="footer-inner">
       <div>
-        <div className="footer-brand">Medhā Labs</div>
-        <p style={{ fontSize: "0.85rem" }}>
+        <div className="footer-logo">
+          <span className="accent">medhā</span>labs.
+        </div>
+        <p className="footer-brand-text">
           Software development, digital marketing & branding studio helping
           businesses ship reliable products with strong market presence.
         </p>
       </div>
       <div>
         <div className="footer-column-title">Services</div>
-        <a className="footer-link" href="#services"> Software Development</a>,
-        <a className="footer-link" href="#marketing"> Marketing & Branding</a> |
-        <a className="footer-link" href="#contact"> Get Started</a>
+        <div className="footer-links">
+          <a className="footer-link" href="#services">
+            Software Development
+          </a>
+          <a className="footer-link" href="#services">
+            Web Applications
+          </a>
+          <a className="footer-link" href="#services">
+            APIs & Integrations
+          </a>
+          <a className="footer-link" href="#services">
+            Digital Marketing
+          </a>
+          <a className="footer-link" href="#services">
+            Brand Strategy
+          </a>
+        </div>
       </div>
       <div>
-        <div className="footer-column-title">Connect</div>
-        | <a className="footer-link" href="mailto:medhalabs04@gmail.com">
-          medhalabs04@gmail.com
-        </a> |  
-        | <a className="footer-link" href="https://www.linkedin.com/in/pavanrajkg/" target="_blank" rel="noreferrer">
-           LinkedIn
-        </a> |
+        <div className="footer-column-title">Company</div>
+        <div className="footer-links">
+          <a className="footer-link" href="#projects">
+            Portfolio
+          </a>
+          <a className="footer-link" href="#about-founder">
+            Team
+          </a>
+          <a className="footer-link" href="#about">
+            About
+          </a>
+          <a className="footer-link" href="#clients">
+            Clients
+          </a>
+          <a className="footer-link" href="#contact">
+            Contact
+          </a>
+        </div>
+      </div>
+      <div>
+        <div className="footer-column-title">Contact</div>
+        <div className="footer-links">
+          <a className="footer-link" href="mailto:medhalabs04@gmail.com">
+            medhalabs04@gmail.com
+          </a>
+          <a
+            className="footer-link"
+            href="https://www.linkedin.com/in/pavanrajkg/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn
+          </a>
+          <span className="footer-link">Bangalore, India</span>
+        </div>
       </div>
     </div>
     <div className="footer-bottom">
-      © {new Date().getFullYear()} Medhā Labs - Intelligence.Innovation.Impact.
+      <span className="footer-bottom-text">
+        © {new Date().getFullYear()} Medhā Labs — Intelligence.Innovation.Impact.
+      </span>
+      <div className="footer-bottom-links">
+        <a href="#contact">Get Started</a>
+        <a href="mailto:medhalabs04@gmail.com">Email Us</a>
+      </div>
     </div>
   </footer>
 );
