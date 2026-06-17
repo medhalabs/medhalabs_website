@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls /var/folders -R 2>/dev/null | grep -i \"png\\\\|encore\" | head -10; ls /tmp | grep -i \"png\\\\|encore\" | head -10)"
+    ]
+  }
+}

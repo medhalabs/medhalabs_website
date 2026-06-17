@@ -7,6 +7,7 @@ import client2 from "./assets/Nesara_Organicslogo.png";
 import client3 from "./assets/purnayai_organicslogo.png";
 import client4 from "./assets/Adimalogo.png";
 import client5 from "./assets/medhalabs_logo.png";
+import client6 from "./assets/encoresheetmetallogo.svg";
 
 const App: React.FC = () => {
   const [loading, setLoading] = React.useState(true);
@@ -541,6 +542,19 @@ const PROJECTS: Project[] = [
     metricLabel: "Generated",
   },
   {
+    id: 8,
+    title: "Encore AI Drawing Matcher",
+    description:
+      "Upload a photo of a handwritten roofing or flashing profile — the AI analyzes the shape, matches it against a master catalog, extracts measurements, and fills the production JSON template automatically.",
+    tech: ["AI/ML", "Computer Vision", "JSON Automation", "Real-time Pipeline"],
+    category: "AI Development",
+    link: "https://www.encoresheetmetal.com.au/",
+    presentation: null,
+    featured: true,
+    metric: "AI",
+    metricLabel: "Drawing matcher",
+  },
+  {
     id: 7,
     title: "Adima Cultural Center",
     description:
@@ -728,7 +742,7 @@ const Differentiators: React.FC = () => {
 };
 
 const Clients: React.FC = () => {
-  const logos = [client1, client2, client3, client4, client5];
+  const logos = [client1, client2, client3, client4, client5, client6];
 
   return (
     <section className="section" id="clients">
