@@ -8,6 +8,10 @@ import client3 from "./assets/purnayai_organicslogo.png";
 import client4 from "./assets/Adimalogo.png";
 import client5 from "./assets/medhalabs_logo.png";
 import client6 from "./assets/encoresheetmetallogo.svg";
+import client7 from "./assets/advika_fashion_logo.png";
+import billinatorIcon from "./assets/billinator_icon.png";
+import educoreIcon from "./assets/medha_educore_icon.png";
+import syncIcon from "./assets/medha_sync_icon.svg";
 
 const App: React.FC = () => {
   const [loading, setLoading] = React.useState(true);
@@ -146,13 +150,31 @@ const HERO_ORBITS = [
     cls: "orbit-sphere-1",
     pos: "orbit-pos-a",
     link: "https://www.billinator.in/",
+    icon: billinatorIcon,
   },
   {
     num: "02",
-    label: "Medha Inbrix",
-    cls: "orbit-sphere-3",
+    label: "Medha Sync",
+    cls: "orbit-sphere-4",
     pos: "orbit-pos-b",
-    link: "/Medha_Inbrix_Presentation.html",
+    link: "https://www.medhasync.in",
+    icon: syncIcon,
+  },
+  {
+    num: "03",
+    label: "Medha EduCore",
+    cls: "orbit-sphere-2",
+    pos: "orbit-pos-c",
+    link: "https://www.meducore.in/",
+    icon: educoreIcon,
+  },
+  {
+    num: "04",
+    label: "Medha AdHub",
+    cls: "orbit-sphere-5",
+    pos: "orbit-pos-d",
+    link: "#",
+    icon: null,
   },
 ];
 
@@ -193,19 +215,36 @@ const Hero: React.FC = () => {
               <ellipse cx="200" cy="250" rx="120" ry="160" stroke="rgba(255,255,255,0.04)" strokeWidth="1" transform="rotate(20 200 250)" />
             </svg>
           </div>
-          {HERO_ORBITS.map((item) => (
-            <a
-              key={item.num}
-              href={item.link}
-              className={`orbit-item ${item.pos}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className={`orbit-sphere ${item.cls}`} />
-              <span className="orbit-num">{item.num}</span>
-              <span className="orbit-label">{item.label}</span>
-            </a>
-          ))}
+          {HERO_ORBITS.map((item) => {
+            const sphere = (
+              <div className={`orbit-sphere ${item.cls}`}>
+                {item.icon && (
+                  <div className="orbit-badge">
+                    <img src={item.icon} alt={`${item.label} logo`} />
+                  </div>
+                )}
+              </div>
+            );
+            return item.link === "#" ? (
+              <div key={item.num} className={`orbit-item ${item.pos}`}>
+                {sphere}
+                <span className="orbit-num">{item.num}</span>
+                <span className="orbit-label">{item.label}</span>
+              </div>
+            ) : (
+              <a
+                key={item.num}
+                href={item.link}
+                className={`orbit-item ${item.pos}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {sphere}
+                <span className="orbit-num">{item.num}</span>
+                <span className="orbit-label">{item.label}</span>
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -300,9 +339,9 @@ const Stats: React.FC = () => (
         <div className="stat-context">Billinator — open source</div>
       </div>
       <div className="stat-card">
-        <div className="stat-number">AI</div>
-        <div className="stat-label">Shared Inbox</div>
-        <div className="stat-context">Medha Inbrix product</div>
+        <div className="stat-number">CRM</div>
+        <div className="stat-label">Unified Inbox</div>
+        <div className="stat-context">Medha Sync product</div>
       </div>
       <div className="stat-card">
         <div className="stat-number">5+</div>
@@ -490,6 +529,45 @@ const PROJECTS: Project[] = [
     metricLabel: "Billing platform",
   },
   {
+    id: 9,
+    title: "Medha EduCore",
+    description:
+      "School management platform covering admissions, students, teachers, attendance, and fees in one modular system.",
+    tech: ["School Management", "Multi-Tenant", "SaaS", "FastAPI"],
+    category: "Software Development",
+    link: "https://www.meducore.in/",
+    presentation: null,
+    featured: true,
+    metric: "K-12",
+    metricLabel: "School platform",
+  },
+  {
+    id: 10,
+    title: "Medha Sync",
+    description:
+      "Unified WhatsApp automation, email sync, and CRM to manage every customer conversation from one inbox.",
+    tech: ["WhatsApp API", "CRM", "Automation", "Email Sync"],
+    category: "Software Development",
+    link: "https://www.medhasync.in",
+    presentation: null,
+    featured: true,
+    metric: "CRM",
+    metricLabel: "Unified inbox",
+  },
+  {
+    id: 11,
+    title: "Medha AdHub",
+    description:
+      "Intelligent multi-channel ad campaign management connecting Google, Meta, TikTok, and LinkedIn from a single dashboard.",
+    tech: ["Ad Management", "Multi-Platform", "Analytics", "Microservices"],
+    category: "Software Development",
+    link: "#",
+    presentation: null,
+    featured: false,
+    metric: "8+",
+    metricLabel: "Ad platforms · in development",
+  },
+  {
     id: 3,
     title: "Nesara & Purnayi Organics",
     description:
@@ -501,19 +579,6 @@ const PROJECTS: Project[] = [
     featured: false,
     metric: "0→1",
     metricLabel: "Brand built",
-  },
-  {
-    id: 4,
-    title: "Medha Inbrix",
-    description:
-      "AI-powered shared inbox. Route, assign, and resolve customer conversations with AI assistance.",
-    tech: ["Shared Inbox", "AI-ready", "Teams", "Routing"],
-    category: "Software Development",
-    link: "#",
-    presentation: "/Medha_Inbrix_Presentation.html",
-    featured: false,
-    metric: "AI",
-    metricLabel: "Powered inbox",
   },
   {
     id: 5,
@@ -566,6 +631,19 @@ const PROJECTS: Project[] = [
     featured: false,
     metric: "Web",
     metricLabel: "Full redesign",
+  },
+  {
+    id: 12,
+    title: "Advika Fashion Academy",
+    description:
+      "Responsive website for a fashion design and tailoring training academy, covering courses, curriculum, and admissions.",
+    tech: ["Web Dev", "Responsive", "Education", "Admissions"],
+    category: "Web Development",
+    link: "https://advikafashion.in/",
+    presentation: null,
+    featured: false,
+    metric: "Web",
+    metricLabel: "Full build",
   },
 ];
 
@@ -742,7 +820,7 @@ const Differentiators: React.FC = () => {
 };
 
 const Clients: React.FC = () => {
-  const logos = [client1, client2, client3, client4, client5, client6];
+  const logos = [client1, client2, client3, client4, client5, client6, client7];
 
   return (
     <section className="section" id="clients">
