@@ -846,21 +846,23 @@ const Founder: React.FC = () => (
   <section className="section" id="about-founder">
     <div className="founder-block">
       <div className="founder-header">
-        <div className="founder-badge">Founder & Lead</div>
-        <h3 className="founder-name">Pavan Raj K G</h3>
+        <div className="founder-badge">Managing Director</div>
+        <h3 className="founder-name">Nalina H R</h3>
         <p className="founder-role">
-          Founder & Full-Stack Developer, Medhā Labs
+          Managing Director, Medhā Labs
         </p>
       </div>
       <div className="founder-grid">
         <div>
           <p className="founder-text">
-            With a background in building real-world products and growing digital
-            presence for businesses, <strong>Pavan Raj K G</strong> started Medhā
-            Labs in 2022 to help companies turn ideas into reliable software that
-            sells. The focus is on clean architecture, clear communication, smart
-            marketing, and shipping value in small, continuous steps.
+            Medhā Labs is a women-empowered company, built on the belief that
+            inclusive leadership drives stronger businesses. Managing Director{" "}
+            <strong>Nalina H R</strong> brings discipline, clarity, and purpose
+            to every product Medhā Labs delivers.
           </p>
+          <blockquote className="founder-quote">
+            “Empowered women build stronger businesses.”
+          </blockquote>
           <div className="founder-mini-stats">
             <div className="stat-card">
               <div className="stat-number">2022</div>
@@ -894,12 +896,28 @@ const Founder: React.FC = () => (
                 Email
               </a>
               <a
-                href="https://www.linkedin.com/in/pavanrajkg/"
+                href="https://www.linkedin.com/in/medh%C4%81labs/"
                 className="connect-link"
                 target="_blank"
                 rel="noreferrer"
               >
                 LinkedIn
+              </a>
+              <a
+                href="https://www.instagram.com/medhalabs04/"
+                className="connect-link"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Instagram
+              </a>
+              <a
+                href="https://www.facebook.com/profile.php?id=61582037759045"
+                className="connect-link"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Facebook
               </a>
             </div>
           </div>
@@ -1083,11 +1101,27 @@ const Footer: React.FC = () => (
           </a>
           <a
             className="footer-link"
-            href="https://www.linkedin.com/in/pavanrajkg/"
+            href="https://www.linkedin.com/in/medh%C4%81labs/"
             target="_blank"
             rel="noreferrer"
           >
             LinkedIn
+          </a>
+          <a
+            className="footer-link"
+            href="https://www.instagram.com/medhalabs04/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram
+          </a>
+          <a
+            className="footer-link"
+            href="https://www.facebook.com/profile.php?id=61582037759045"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Facebook
           </a>
           <span className="footer-link">Bangalore, India</span>
         </div>
@@ -1096,6 +1130,7 @@ const Footer: React.FC = () => (
     <div className="footer-bottom">
       <span className="footer-bottom-text">
         © {new Date().getFullYear()} Medhā Labs — Intelligence.Innovation.Impact.
+        {" "}· Udyam Reg. No. UDYAM-KR-03-0713786
       </span>
       <div className="footer-bottom-links">
         <a href="#contact">Get Started</a>
