@@ -68,6 +68,7 @@ const App: React.FC = () => {
       <Differentiators />
       <Clients />
       <Founder />
+      <Timeline />
       <Contact />
       <Footer />
     </div>
@@ -926,6 +927,202 @@ const Founder: React.FC = () => (
     </div>
   </section>
 );
+
+type Milestone = {
+  year: string;
+  period?: string;
+  title: string;
+  text: string;
+  tags?: string[];
+};
+
+const MILESTONES: Milestone[] = [
+  {
+    year: "2022",
+    period: "26 Feb",
+    title: "Medhā Labs is born",
+    text:
+      "Started as a small studio with zero projects in hand — just a laptop, a name, and the conviction that we could build things people would pay for.",
+    tags: ["Day one"],
+  },
+  {
+    year: "2022",
+    period: "The first year",
+    title: "Learning the craft",
+    text:
+      "Flyers, visiting cards, brand collateral and WordPress websites. Small jobs, done properly — every one of them taught us how to work with clients.",
+    tags: ["Graphic design", "WordPress"],
+  },
+  {
+    year: "2022",
+    period: "Year end",
+    title: "First real client — Technosys India",
+    text:
+      "Our first proper engagement: website design plus digital marketing. The moment the studio turned into a business.",
+    tags: ["Web design", "Digital marketing"],
+  },
+  {
+    year: "2023",
+    period: "Early",
+    title: "Nesara Organics goes online",
+    text:
+      "Built and launched a full e-commerce store, then ran the digital marketing behind it. Our first taste of owning a client's entire online presence.",
+    tags: ["E-commerce", "Digital marketing"],
+  },
+  {
+    year: "2023",
+    period: "Mid",
+    title: "Billinator begins",
+    text:
+      "We stopped only building for others and started building for ourselves — the first lines of Billinator, our billing platform.",
+    tags: ["Product", "Billinator"],
+  },
+  {
+    year: "2023",
+    period: "Year end",
+    title: "Adima Cultural Centre",
+    text:
+      "Designed and delivered the Adima Cultural Centre website on WordPress — a brief that was as much about culture as it was about code.",
+    tags: ["WordPress"],
+  },
+  {
+    year: "2024",
+    period: "Early",
+    title: "Billinator, free for our clients",
+    text:
+      "We handed Billinator to our clients at no cost. Real businesses, real invoices, real feedback — the fastest way to make the product sharp.",
+    tags: ["Billinator", "Adoption"],
+  },
+  {
+    year: "2024",
+    period: "Mid → year end",
+    title: "Medhā Sync takes shape",
+    text:
+      "Started building Medhā Sync mid-year and finished it before the year closed. Two products in the house now.",
+    tags: ["Product", "Medhā Sync"],
+  },
+  {
+    year: "2025",
+    period: "The building year",
+    title: "Heads down on Medhā Educore",
+    text:
+      "A quiet year on sales — so we spent it building. Medhā Educore was born, and by year end all three applications were live, with AI woven into Billinator.",
+    tags: ["Medhā Educore", "3 apps live", "AI"],
+  },
+  {
+    year: "2026",
+    period: "Early",
+    title: "Advika Fashions",
+    text:
+      "Designed and shipped the Advika Fashions web presence — back to client work, with a much stronger toolkit behind us.",
+    tags: ["Web design"],
+  },
+  {
+    year: "2026",
+    period: "Going global",
+    title: "Encore Sheet Metals — Australia",
+    text:
+      "Our first international client. We built an AI Drawing Matcher for their fabrication workflow and took it all the way to production.",
+    tags: ["AI", "Australia", "In production"],
+  },
+  {
+    year: "2026",
+    period: "Now",
+    title: "iSwot Tech — AI Ad Analytics",
+    text:
+      "Newly signed: an AI-driven advertising analytics platform for iSwot Tech. And one more AI project sitting in the final round.",
+    tags: ["AI", "Signed", "1 more in pipeline"],
+  },
+];
+
+const Timeline: React.FC = () => {
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const node = trackRef.current;
+    if (!node) return;
+
+    const items = node.querySelectorAll(".tl-item");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("tl-in");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -60px 0px" }
+    );
+
+    items.forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section className="section" id="journey">
+      <div className="section-header section-header-center">
+        <div className="section-badge">Since 26 Feb 2022</div>
+        <h2 className="section-title">The road</h2>
+        <h2 className="section-title section-title-outline">so far.</h2>
+        <p className="section-subtitle">
+          From flyers and visiting cards to AI systems running in production
+          across two continents — here is every turn we took to get here.
+        </p>
+      </div>
+
+      <div className="timeline" ref={trackRef}>
+        <div className="timeline-track">
+          {MILESTONES.map((m, i) => (
+            <div
+              className={`tl-item ${i % 2 === 0 ? "tl-left" : "tl-right"}`}
+              key={`${m.year}-${m.title}`}
+            >
+              <div className="tl-marker">
+                <span className="tl-dot" />
+              </div>
+              <article className="tl-card">
+                <div className="tl-card-head">
+                  <span className="tl-year">{m.year}</span>
+                  {m.period && <span className="tl-period">{m.period}</span>}
+                </div>
+                <h3 className="tl-title">{m.title}</h3>
+                <p className="tl-text">{m.text}</p>
+                {m.tags && (
+                  <div className="tl-tags">
+                    {m.tags.map((tag) => (
+                      <span className="tl-tag" key={tag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </article>
+            </div>
+          ))}
+
+          <div className="tl-item tl-final">
+            <div className="tl-marker">
+              <span className="tl-dot tl-dot--pulse" />
+            </div>
+            <article className="tl-card tl-card--final">
+              <div className="tl-flag">Next milestone</div>
+              <h3 className="tl-final-title">More progress ahead.</h3>
+              <p className="tl-text">
+                Three products live, AI in production, and a pipeline that keeps
+                filling. The best part of this road is the part we haven't
+                built yet.
+              </p>
+              <a href="#contact" className="tl-cta">
+                Build the next one with us →
+              </a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const Contact: React.FC = () => {
   const [status, setStatus] = React.useState<
