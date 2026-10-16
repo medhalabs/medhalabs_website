@@ -302,7 +302,7 @@ const About: React.FC = () => (
       </div>
       <div className="about-stats">
         <div className="stat-card">
-          <div className="stat-number">7+</div>
+          <div className="stat-number">15+</div>
           <div className="stat-label">Projects Delivered</div>
           <div className="stat-context">Software & marketing</div>
         </div>
@@ -909,7 +909,7 @@ const Founder: React.FC = () => (
               <div className="stat-label">Founded</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">7+</div>
+              <div className="stat-number">15+</div>
               <div className="stat-label">Projects</div>
             </div>
           </div>
