@@ -1066,11 +1066,19 @@ const MILESTONES: Milestone[] = [
   },
   {
     year: "2026",
-    period: "More AI builds",
-    title: "AWF Analytics & SmartLED Command Center",
+    period: "Going global",
+    title: "AWF Analytics — Australia",
     text:
-      "An AI analytics platform for an Australian sheet-metal manufacturer, and a computer-vision command center that measures audience attention for Nivon Technologies' LED ad vehicles.",
-    tags: ["AI", "Analytics", "Computer vision"],
+      "A business-intelligence platform for AW&F Sheetmetal, Seymour, Australia. Nine role-based dashboards powered by a daily Airflow ETL, and a read-only AI assistant that answers questions in plain English with every query shown.",
+    tags: ["AI", "Analytics", "Australia"],
+  },
+  {
+    year: "2026",
+    period: "AI on the move",
+    title: "SmartLED Command Center — Bengaluru",
+    text:
+      "Built for Nivon Technologies: a YOLO model fine-tuned on 128 GB of Indian road data counts real viewers of LED ad vehicles, with a live fleet map, campaign scheduling, and proof-of-performance reports.",
+    tags: ["Computer vision", "AI", "Bengaluru"],
   },
   {
     year: "2026",
