@@ -9,6 +9,7 @@ import client4 from "./assets/Adimalogo.png";
 import client5 from "./assets/medhalabs_logo.png";
 import client6 from "./assets/encoresheetmetallogo.svg";
 import client7 from "./assets/advika_fashion_logo.png";
+import client8 from "./assets/venmox_fintech_logo.png";
 import billinatorIcon from "./assets/billinator_icon.png";
 import educoreIcon from "./assets/medha_educore_icon.png";
 import syncIcon from "./assets/medha_sync_icon.svg";
@@ -634,6 +635,19 @@ const PROJECTS: Project[] = [
     metricLabel: "Training data · Indian roads",
   },
   {
+    id: 16,
+    title: "Venmox Fintech",
+    description:
+      "Engineering partner for Venmox Fintech, a new trading-technology venture built around clarity and precision. The product is in development and the coming-soon site is live.",
+    tech: ["Fintech", "Trading Platform", "Product Engineering", "UI/UX"],
+    category: "Software Development",
+    link: "https://www.venmoxfintec.com/",
+    presentation: null,
+    featured: true,
+    metric: "Fintech",
+    metricLabel: "Trading tech · in development",
+  },
+  {
     id: 15,
     title: "New Vedha",
     description:
@@ -860,7 +874,7 @@ const Differentiators: React.FC = () => {
 };
 
 const Clients: React.FC = () => {
-  const logos = [client1, client2, client3, client4, client5, client6, client7];
+  const logos = [client1, client2, client3, client4, client5, client6, client7, client8];
 
   return (
     <section className="section" id="clients">
@@ -1082,11 +1096,19 @@ const MILESTONES: Milestone[] = [
   },
   {
     year: "2026",
-    period: "Now",
+    period: "AI pipeline",
     title: "iSwot Tech — AI Ad Analytics",
     text:
       "Newly signed: an AI-driven advertising analytics platform for iSwot Tech. And one more AI project sitting in the final round.",
     tags: ["AI", "Signed", "1 more in pipeline"],
+  },
+  {
+    year: "2026",
+    period: "Now",
+    title: "Venmox Fintech — Trading technology",
+    text:
+      "Signed on as the engineering partner for Venmox Fintech, a new trading-technology venture. Development is under way, and their coming-soon campaign is already live at venmoxfintec.com.",
+    tags: ["Fintech", "Signed", "In development"],
   },
 ];
 
